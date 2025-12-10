@@ -1,0 +1,70 @@
+{
+  "issues": [
+    {
+      "id": "1",
+      "title": "Broken Streetlight",
+      "category": "Public Infrastructure",
+      "description": "Streetlight not working on Main Street, creating danger at night for pedestrians.",
+      "location": "Main Street, Area 5",
+      "status": "Resolved",
+      "priority": "Normal",
+      "upvotes": 15,
+      "images": ["https://example.com/images/streetlight1.jpg"]
+    },
+    {
+      "id": "2",
+      "title": "Potholes on 2nd Avenue",
+      "category": "Road Infrastructure",
+      "description": "Multiple potholes causing traffic delays and risk of damage to vehicles nearby.",
+      "location": "2nd Avenue, Sector 3",
+      "status": "Resolved",
+      "priority": "High",
+      "upvotes": 20,
+      "images": ["https://example.com/images/potholes.jpg"]
+    },
+    {
+      "id": "3",
+      "title": "Water Leakage Near Park",
+      "category": "Water Supply",
+      "description": "Continuous water leakage near central park affecting streets and nearby pedestrians.",
+      "location": "Central Park Area",
+      "status": "Resolved",
+      "priority": "Normal",
+      "upvotes": 5,
+      "images": ["https://example.com/images/water_leak.jpg"]
+    },
+    {
+      "id": "4",
+      "title": "Garbage Overflow on 5th Street",
+      "category": "Sanitation",
+      "description": "Garbage bins overflowing, causing hygiene issues for residents and visitors nearby.",
+      "location": "5th Street, Downtown",
+      "status": "Resolved",
+      "priority": "Normal",
+      "upvotes": 8,
+      "images": ["https://example.com/images/garbage.jpg"]
+    },
+    {
+      "id": "5",
+      "title": "Damaged Footpath Near Library",
+      "category": "Road Infrastructure",
+      "description": "Footpath slabs broken, creating hazards for pedestrians walking near the library.",
+      "location": "Library Road, Area 2",
+      "status": "Resolved",
+      "priority": "High",
+      "upvotes": 12,
+      "images": ["https://example.com/images/footpath.jpg"]
+    },
+    {
+      "id": "6",
+      "title": "Fallen Traffic Sign",
+      "category": "Traffic Infrastructure",
+      "description": "Traffic sign fallen on main road, causing hazards for vehicles and nearby pedestrians.",
+      "location": "Market Road, Area 1",
+      "status": "Resolved",
+      "priority": "Normal",
+      "upvotes": 6,
+      "images": ["https://example.com/images/traffic_sign.jpg"]
+    }
+  ]
+}

@@ -64,14 +64,14 @@ const Login = () => {
             type="submit"
             className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition text-lg"
           >
-            Register
+           Login
           </button>
         </form>
 
         <p className="text-center text-gray-500 text-sm mt-6">
-          Already have an account?{" "}
-          <a href="/login" className="text-green-600 font-medium hover:underline">
-            Login
+          Do not have an account?{" "}
+          <a href="/register" className="text-green-600 font-medium hover:underline">
+            Register
           </a>
         </p>
       </div>

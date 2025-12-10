@@ -9,11 +9,13 @@ export default function LatestResolvedIssues() {
     fetch("/latest.json")
       .then((res) => res.json())
       .then((data) => {
-        const resolvedIssues = data.issues.filter(issue => issue.status === "Resolved");
+        const resolvedIssues = data.issues.filter(
+          (issue) => issue.status === "Resolved"
+        );
         const sorted = resolvedIssues.sort(
           (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
         );
-        setIssues(sorted.slice(0, 6)); 
+        setIssues(sorted.slice(0, 6));
       })
       .catch((err) => console.error("Error loading latest.json:", err));
   }, []);
@@ -30,13 +32,17 @@ export default function LatestResolvedIssues() {
             Recently <span className="text-green-600">Resolved</span> Issues
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            See how community reports lead to real changes in our city infrastructure
+            See how community reports lead to real changes in our city
+            infrastructure
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {issues.map(issue => (
-            <div key={issue.id} className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition">
+          {issues.map((issue) => (
+            <div
+              key={issue.id}
+              className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition"
+            >
               {issue.images && issue.images[0] ? (
                 <img
                   src={issue.images[0]}
@@ -51,21 +57,31 @@ export default function LatestResolvedIssues() {
 
               <div className="p-5">
                 <h3 className="text-lg font-semibold mb-2">{issue.title}</h3>
-                <p className="text-sm text-gray-500 mb-3 line-clamp-2">{issue.description}</p>
+                <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+                  {issue.description}
+                </p>
 
                 <div className="flex flex-wrap gap-2 mb-3">
                   <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-500 text-white">
                     {issue.status}
                   </span>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                    issue.priority === "High" ? "bg-red-500 text-white" : "bg-blue-500 text-white"
-                  }`}>
+                  <span
+                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                      issue.priority === "High"
+                        ? "bg-red-500 text-white"
+                        : "bg-blue-500 text-white"
+                    }`}
+                  >
                     {issue.priority}
                   </span>
                 </div>
 
-                <p className="text-sm text-gray-400 mb-3">Location: {issue.location}</p>
-                <p className="text-sm text-gray-400 mb-4">Upvotes: {issue.upvotes}</p>
+                <p className="text-sm text-gray-400 mb-3">
+                  Location: {issue.location}
+                </p>
+                <p className="text-sm text-gray-400 mb-4">
+                  Upvotes: {issue.upvotes}
+                </p>
 
                 <button
                   onClick={() => handleViewDetails(issue.id)}

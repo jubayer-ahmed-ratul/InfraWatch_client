@@ -18,7 +18,7 @@ const Navbar = () => {
   const navItems = (
     <>
       <li><a href="/" className="text-lg font-medium px-4 hover:text-green-600 transition">Home</a></li>
-      <li><a href="/issues" className="text-lg font-medium px-4 hover:text-green-600 transition">All Issues</a></li>
+      <li><a href="/allissues" className="text-lg font-medium px-4 hover:text-green-600 transition">All Issues</a></li>
       <li><a href="/dashboard" className="text-lg font-medium px-4 hover:text-green-600 transition">Dashboard</a></li>
     </>
   );
@@ -77,8 +77,15 @@ const Navbar = () => {
               </div>
 
               <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52 z-50">
-              
-               
+                <li className="p-4 border-b">
+                  <div className="flex flex-col">
+                    <span className="font-bold">{user.displayName || user.email}</span>
+                    <span className="text-sm text-gray-500">{user.email}</span>
+                  </div>
+                </li>
+                <li><a href="/dashboard" className="justify-between">Dashboard <span className="badge badge-success">New</span></a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/settings">Settings</a></li>
                 <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
               </ul>
             </div>

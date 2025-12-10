@@ -1,0 +1,343 @@
+[
+  {
+    "id": "issue_001",
+    "title": "Broken Streetlight on Main Street",
+    "description": "The streetlight near Main Street roundabout is not working.",
+    "category": "Streetlight",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "Main Street, Downtown",
+    "image": "https://example.com/images/streetlight1.jpg",
+    "upvotes": 5,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_001", "name": "John Doe" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "John Doe", "timestamp": "2025-12-10T09:00:00Z" }]
+  },
+  {
+    "id": "issue_002",
+    "title": "Pothole on Elm Street",
+    "description": "Large pothole in front of Elm Street market causing traffic issues.",
+    "category": "Road",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Elm Street, Midtown",
+    "image": "https://example.com/images/pothole1.jpg",
+    "upvotes": 12,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_002", "name": "Jane Smith" },
+    "assignedStaff": { "staffId": "staff_001", "name": "Mike Johnson" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Jane Smith", "timestamp": "2025-12-08T14:30:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started work", "updatedBy": "Mike Johnson", "timestamp": "2025-12-09T10:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_003",
+    "title": "Water Leakage in Park",
+    "description": "Water pipe leaking near the central park fountain.",
+    "category": "Water",
+    "status": "Resolved",
+    "priority": "Normal",
+    "location": "Central Park, Uptown",
+    "image": "https://example.com/images/water_leak1.jpg",
+    "upvotes": 8,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_003", "name": "Alice Brown" },
+    "assignedStaff": { "staffId": "staff_002", "name": "Sarah Lee" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Alice Brown", "timestamp": "2025-12-05T08:20:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started repair", "updatedBy": "Sarah Lee", "timestamp": "2025-12-06T09:00:00Z" },
+      { "status": "Resolved", "message": "Issue repaired and resolved", "updatedBy": "Sarah Lee", "timestamp": "2025-12-07T17:30:00Z" }
+    ]
+  },
+  {
+    "id": "issue_004",
+    "title": "Overflowing Garbage Bin",
+    "description": "Garbage bin near 5th Avenue is overflowing.",
+    "category": "Garbage",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "5th Avenue, Downtown",
+    "image": "https://example.com/images/garbage1.jpg",
+    "upvotes": 3,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_004", "name": "Robert Green" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Robert Green", "timestamp": "2025-12-09T12:00:00Z" }]
+  },
+  {
+    "id": "issue_005",
+    "title": "Damaged Footpath",
+    "description": "Footpath cracked near Oak Street library.",
+    "category": "Footpath",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Oak Street, Midtown",
+    "image": "https://example.com/images/footpath1.jpg",
+    "upvotes": 10,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_005", "name": "Emma White" },
+    "assignedStaff": { "staffId": "staff_003", "name": "David Kim" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Emma White", "timestamp": "2025-12-07T09:30:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started work", "updatedBy": "David Kim", "timestamp": "2025-12-08T11:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_006",
+    "title": "Streetlight Flickering",
+    "description": "Streetlight near Pine Street flickers at night.",
+    "category": "Streetlight",
+    "status": "Resolved",
+    "priority": "Normal",
+    "location": "Pine Street, Downtown",
+    "image": "https://example.com/images/streetlight2.jpg",
+    "upvotes": 6,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_006", "name": "Lucas Martin" },
+    "assignedStaff": { "staffId": "staff_001", "name": "Mike Johnson" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Lucas Martin", "timestamp": "2025-12-01T10:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started repair", "updatedBy": "Mike Johnson", "timestamp": "2025-12-02T12:00:00Z" },
+      { "status": "Resolved", "message": "Streetlight repaired", "updatedBy": "Mike Johnson", "timestamp": "2025-12-03T16:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_007",
+    "title": "Water Leakage on Maple Street",
+    "description": "Pipe burst causing water flooding near Maple Street school.",
+    "category": "Water",
+    "status": "Pending",
+    "priority": "High",
+    "location": "Maple Street, Midtown",
+    "image": "https://example.com/images/water_leak2.jpg",
+    "upvotes": 15,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_007", "name": "Sophia Turner" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Sophia Turner", "timestamp": "2025-12-10T07:45:00Z" }]
+  },
+  {
+    "id": "issue_008",
+    "title": "Pothole near City Hospital",
+    "description": "Deep pothole causing accidents near hospital entrance.",
+    "category": "Road",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Health Avenue, Uptown",
+    "image": "https://example.com/images/pothole2.jpg",
+    "upvotes": 20,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_008", "name": "Oliver King" },
+    "assignedStaff": { "staffId": "staff_002", "name": "Sarah Lee" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Oliver King", "timestamp": "2025-12-05T08:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started repair", "updatedBy": "Sarah Lee", "timestamp": "2025-12-06T09:30:00Z" }
+    ]
+  },
+  {
+    "id": "issue_009",
+    "title": "Overflowing Garbage Container",
+    "description": "Garbage container at Market Street is overflowing daily.",
+    "category": "Garbage",
+    "status": "Resolved",
+    "priority": "Normal",
+    "location": "Market Street, Downtown",
+    "image": "https://example.com/images/garbage2.jpg",
+    "upvotes": 9,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_009", "name": "Liam Harris" },
+    "assignedStaff": { "staffId": "staff_003", "name": "David Kim" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Liam Harris", "timestamp": "2025-12-02T10:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and started cleaning", "updatedBy": "David Kim", "timestamp": "2025-12-03T09:00:00Z" },
+      { "status": "Resolved", "message": "Garbage cleared", "updatedBy": "David Kim", "timestamp": "2025-12-04T15:30:00Z" }
+    ]
+  },
+  {
+    "id": "issue_010",
+    "title": "Cracked Footpath near School",
+    "description": "Footpath cracked, causing safety hazards for students.",
+    "category": "Footpath",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "School Road, Uptown",
+    "image": "https://example.com/images/footpath2.jpg",
+    "upvotes": 4,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_010", "name": "Mia Scott" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Mia Scott", "timestamp": "2025-12-10T08:15:00Z" }]
+  },
+  {
+    "id": "issue_011",
+    "title": "Flickering Streetlight on 7th Avenue",
+    "description": "Streetlight flickers intermittently causing poor visibility at night.",
+    "category": "Streetlight",
+    "status": "In-Progress",
+    "priority": "Normal",
+    "location": "7th Avenue, Downtown",
+    "image": "https://example.com/images/streetlight3.jpg",
+    "upvotes": 7,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_011", "name": "Ethan Lewis" },
+    "assignedStaff": { "staffId": "staff_001", "name": "Mike Johnson" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Ethan Lewis", "timestamp": "2025-12-06T09:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned", "updatedBy": "Mike Johnson", "timestamp": "2025-12-07T11:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_012",
+    "title": "Water Leakage near Library",
+    "description": "Pipe leaking, water accumulation near library entrance.",
+    "category": "Water",
+    "status": "Pending",
+    "priority": "High",
+    "location": "Library Street, Midtown",
+    "image": "https://example.com/images/water_leak3.jpg",
+    "upvotes": 11,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_012", "name": "Chloe Adams" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported by citizen", "updatedBy": "Chloe Adams", "timestamp": "2025-12-09T10:20:00Z" }]
+  },
+  {
+    "id": "issue_013",
+    "title": "Deep Pothole on River Road",
+    "description": "Pothole causing accidents, needs urgent repair.",
+    "category": "Road",
+    "status": "Resolved",
+    "priority": "High",
+    "location": "River Road, Uptown",
+    "image": "https://example.com/images/pothole3.jpg",
+    "upvotes": 18,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_013", "name": "Noah Baker" },
+    "assignedStaff": { "staffId": "staff_002", "name": "Sarah Lee" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported", "updatedBy": "Noah Baker", "timestamp": "2025-12-03T08:30:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned and working", "updatedBy": "Sarah Lee", "timestamp": "2025-12-04T09:00:00Z" },
+      { "status": "Resolved", "message": "Pothole fixed", "updatedBy": "Sarah Lee", "timestamp": "2025-12-05T14:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_014",
+    "title": "Overflowing Garbage near Mall",
+    "description": "Garbage pile near mall entrance causing foul smell.",
+    "category": "Garbage",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "Mall Street, Downtown",
+    "image": "https://example.com/images/garbage3.jpg",
+    "upvotes": 6,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_014", "name": "Isabella Nelson" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported", "updatedBy": "Isabella Nelson", "timestamp": "2025-12-10T09:10:00Z" }]
+  },
+  {
+    "id": "issue_015",
+    "title": "Damaged Footpath near Park",
+    "description": "Footpath cracked and unsafe near park playground.",
+    "category": "Footpath",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Park Road, Uptown",
+    "image": "https://example.com/images/footpath3.jpg",
+    "upvotes": 9,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_015", "name": "James Clark" },
+    "assignedStaff": { "staffId": "staff_003", "name": "David Kim" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported", "updatedBy": "James Clark", "timestamp": "2025-12-07T11:15:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned", "updatedBy": "David Kim", "timestamp": "2025-12-08T12:00:00Z" }
+    ]
+  },
+  {
+    "id": "issue_016",
+    "title": "Streetlight Out on 3rd Avenue",
+    "description": "Streetlight not working, causing poor visibility.",
+    "category": "Streetlight",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "3rd Avenue, Downtown",
+    "image": "https://example.com/images/streetlight4.jpg",
+    "upvotes": 2,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_016", "name": "Charlotte Hall" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported", "updatedBy": "Charlotte Hall", "timestamp": "2025-12-10T07:00:00Z" }]
+  },
+  {
+    "id": "issue_017",
+    "title": "Water Leakage near Stadium",
+    "description": "Leak causing water logging near stadium parking.",
+    "category": "Water",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Stadium Road, Uptown",
+    "image": "https://example.com/images/water_leak4.jpg",
+    "upvotes": 14,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_017", "name": "Henry Young" },
+    "assignedStaff": { "staffId": "staff_002", "name": "Sarah Lee" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported", "updatedBy": "Henry Young", "timestamp": "2025-12-06T09:50:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned", "updatedBy": "Sarah Lee", "timestamp": "2025-12-07T10:30:00Z" }
+    ]
+  },
+  {
+    "id": "issue_018",
+    "title": "Pothole on Bridge Road",
+    "description": "Bridge Road pothole is dangerous for vehicles.",
+    "category": "Road",
+    "status": "Resolved",
+    "priority": "High",
+    "location": "Bridge Road, Downtown",
+    "image": "https://example.com/images/pothole4.jpg",
+    "upvotes": 22,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_018", "name": "Victoria Hall" },
+    "assignedStaff": { "staffId": "staff_001", "name": "Mike Johnson" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported", "updatedBy": "Victoria Hall", "timestamp": "2025-12-02T08:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned", "updatedBy": "Mike Johnson", "timestamp": "2025-12-03T09:15:00Z" },
+      { "status": "Resolved", "message": "Pothole fixed", "updatedBy": "Mike Johnson", "timestamp": "2025-12-04T14:30:00Z" }
+    ]
+  },
+  {
+    "id": "issue_019",
+    "title": "Garbage Overflow near Bus Stop",
+    "description": "Daily garbage overflow at bus stop causing inconvenience.",
+    "category": "Garbage",
+    "status": "Pending",
+    "priority": "Normal",
+    "location": "Bus Stop Road, Midtown",
+    "image": "https://example.com/images/garbage4.jpg",
+    "upvotes": 5,
+    "boosted": false,
+    "createdBy": { "userId": "citizen_019", "name": "Daniel Walker" },
+    "assignedStaff": null,
+    "timeline": [{ "status": "Pending", "message": "Issue reported", "updatedBy": "Daniel Walker", "timestamp": "2025-12-10T08:40:00Z" }]
+  },
+  {
+    "id": "issue_020",
+    "title": "Cracked Footpath near Hospital",
+    "description": "Footpath cracked near hospital main entrance, needs repair.",
+    "category": "Footpath",
+    "status": "In-Progress",
+    "priority": "High",
+    "location": "Hospital Street, Uptown",
+    "image": "https://example.com/images/footpath4.jpg",
+    "upvotes": 8,
+    "boosted": true,
+    "createdBy": { "userId": "citizen_020", "name": "Amelia Wright" },
+    "assignedStaff": { "staffId": "staff_003", "name": "David Kim" },
+    "timeline": [
+      { "status": "Pending", "message": "Issue reported", "updatedBy": "Amelia Wright", "timestamp": "2025-12-07T10:00:00Z" },
+      { "status": "In-Progress", "message": "Staff assigned", "updatedBy": "David Kim", "timestamp": "2025-12-08T11:30:00Z" }
+    ]
+  }
+]

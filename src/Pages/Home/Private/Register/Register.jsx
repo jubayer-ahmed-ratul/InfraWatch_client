@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth"; 
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
@@ -11,15 +12,27 @@ const Register = () => {
     try {
       const userCredential = await registerUser(data.email, data.password);
       console.log("User registered:", userCredential.user);
-      alert("Registration successful!");
+
+      Swal.fire({
+        icon: "success",
+        title: "Registration Successful",
+        text: `Welcome, ${data.email}! Your account has been created.`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } catch (error) {
       console.error("Registration error:", error);
-      alert(error.message);
+
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: error.message,
+      });
     }
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Create Your <span className="text-green-600">Account</span>
@@ -63,11 +76,13 @@ const Register = () => {
             Register
           </button>
         </form>
+
         <div className="flex items-center my-6">
           <div className="flex-1 h-px bg-gray-300"></div>
           <span className="mx-3 text-gray-500 text-sm">OR</span>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
+
         <GoogleLogin />
 
         <p className="text-center text-gray-500 text-sm mt-6">

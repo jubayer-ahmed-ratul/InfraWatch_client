@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import allIssuesData from "../../../../public/allIssues.json";
+import useAxiosSecure from "../../../hooks/useAxiosSecure"; 
 
 export default function AllIssuesPage({ currentUser }) {
   const [issues, setIssues] = useState([]);
@@ -8,12 +8,27 @@ export default function AllIssuesPage({ currentUser }) {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    setIssues(allIssuesData);
-  }, []);
+    const fetchIssues = async () => {
+      try {
+        const response = await axiosSecure.get("/issues"); 
+        setIssues(response.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch issues.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIssues();
+  }, [axiosSecure]);
 
   const handleUpvote = (issueId) => {
     const issue = issues.find((i) => i.id === issueId);
@@ -47,6 +62,9 @@ export default function AllIssuesPage({ currentUser }) {
     .filter((issue) => !statusFilter || issue.status === statusFilter)
     .filter((issue) => !priorityFilter || issue.priority === priorityFilter)
     .sort((a, b) => (b.boosted ? 1 : 0) - (a.boosted ? 1 : 0));
+
+  if (loading) return <div className="text-center py-16">Loading...</div>;
+  if (error) return <div className="text-center py-16 text-red-500">{error}</div>;
 
   return (
     <section className="py-16 bg-gray-50 min-h-screen">

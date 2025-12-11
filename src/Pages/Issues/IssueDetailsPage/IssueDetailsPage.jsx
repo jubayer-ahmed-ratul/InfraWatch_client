@@ -1,22 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import allIssuesData from "../../../../public/allIssues.json";
+import useAxiosSecure from "../../../hooks/useAxiosSecure"; 
 
 export default function IssueDetailsPage({ currentUser }) {
   const { issueId } = useParams();
   const navigate = useNavigate();
   const [issue, setIssue] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    const foundIssue = allIssuesData.find((i) => i.id === issueId);
-    setIssue(foundIssue);
-  }, [issueId]);
+    const fetchIssue = async () => {
+      try {
+        const response = await axiosSecure.get(`/issues/${issueId}`);
+        setIssue(response.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch issue.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!issue) {
+    fetchIssue();
+  }, [issueId, axiosSecure]);
+
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error)
+    return (
+      <div className="text-center py-20 text-red-500">{error}</div>
+    );
+  if (!issue)
     return (
       <div className="text-center py-20 text-gray-500">Issue not found.</div>
     );
-  }
 
   const isCreator = currentUser?.userId === issue.createdBy?.userId;
   const canEdit = isCreator && issue.status === "Pending";

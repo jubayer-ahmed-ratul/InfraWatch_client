@@ -195,7 +195,7 @@ export default function AllIssuesPage({ currentUser }) {
                       Upvote ({issue.upvotes})
                     </button>
                     <button
-                      onClick={() => navigate(`/issues/${issue.id}`)}
+                      onClick={() => navigate(`/issues/${issue._id}`)}
                       className="w-full py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg font-semibold hover:from-green-500 hover:to-green-700 transition"
                     >
                       View Details

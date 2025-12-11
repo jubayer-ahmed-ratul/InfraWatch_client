@@ -28,14 +28,8 @@ export default function IssueDetailsPage({ currentUser }) {
   }, [issueId, axiosSecure]);
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
-  if (error)
-    return (
-      <div className="text-center py-20 text-red-500">{error}</div>
-    );
-  if (!issue)
-    return (
-      <div className="text-center py-20 text-gray-500">Issue not found.</div>
-    );
+  if (error) return <div className="text-center py-20 text-red-500">{error}</div>;
+  if (!issue) return <div className="text-center py-20 text-gray-500">Issue not found.</div>;
 
   const isCreator = currentUser?.userId === issue.createdBy?.userId;
   const canEdit = isCreator && issue.status === "Pending";

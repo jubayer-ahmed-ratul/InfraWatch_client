@@ -7,7 +7,8 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   signOut,
-  reload
+  reload,
+  updateProfile
 } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.init';
 
@@ -15,7 +16,6 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-   
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -24,6 +24,9 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
+    // --------------------------------
+    // Firebase Auth Functions
+    // --------------------------------
     const registerUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     };
@@ -46,13 +49,31 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     };
 
+    // --------------------------------
+    // Update User Profile
+    // --------------------------------
+    const updateUserProfile = (name, photoURL) => {
+        if (auth.currentUser) {
+            return updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: photoURL
+            });
+        } else {
+            return Promise.reject(new Error("No user logged in"));
+        }
+    };
+
+    // --------------------------------
+    // Auth Context Info
+    // --------------------------------
     const authInfo = { 
         user, 
         loading, 
         registerUser, 
         signInUser, 
         googleSignIn, 
-        logOut 
+        logOut,
+        updateUserProfile // <-- added here
     };
 
     return (

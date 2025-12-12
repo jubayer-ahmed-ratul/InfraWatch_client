@@ -1,11 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Pages/Layout/RootLayout";
 import AuthLayout from "../Pages/Layout/AuthLayout";
+import DashboardLayout from "../Pages/Layout/DashboardLayout";
+
 import HomePage from "../Pages/Home/Home/HomePage";
 import Login from "../Pages/Home/Private/Login/Login";
 import Register from "../Pages/Home/Private/Register/Register";
 import AllIssuesPage from "../Pages/Issues/AllIssuesPage/AllIssuesPage";
 import IssueDetailsPage from "../Pages/Issues/IssueDetailsPage/IssueDetailsPage";
+
+// Dashboard pages
+import OverviewPage from "../Pages/Dashboard/User/OverviewPage";
+import MyIssuesPage from "../Pages/Dashboard/User/MyIssuesPage";
+import ReportIssuePage from "../Pages/Dashboard/User/ReportIssuePage";
+import ProfilePage from "../Pages/Dashboard/User/ProfilePage";
+
 import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
@@ -31,6 +40,20 @@ export const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      { index: true, element: <OverviewPage /> },
+      { path: "my-issues", element: <MyIssuesPage /> },
+      { path: "report-issue", element: <ReportIssuePage /> },
+      { path: "profile", element: <ProfilePage /> },
     ],
   },
 ]);

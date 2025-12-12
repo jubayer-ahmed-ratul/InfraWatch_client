@@ -14,10 +14,11 @@ export default function AllIssuesPage({ currentUser }) {
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
   const [page, setPage] = useState(1);
+  const [message, setMessage] = useState(null); 
   const limit = 9;
 
  
-  const { data, isLoading, isFetching, isError, error } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["issues", { searchQuery, categoryFilter, statusFilter, priorityFilter, page }],
     queryFn: async () => {
       const params = new URLSearchParams({
@@ -40,10 +41,16 @@ export default function AllIssuesPage({ currentUser }) {
 
 
   const upvoteMutation = useMutation({
-    mutationFn: async (issueId) => axiosSecure.post(`/issues/${issueId}/upvote`),
+    mutationFn: async (issueId) => {
+      const res = await axiosSecure.patch(`/issues/${issueId}/upvote`, {
+        userId: currentUser.userId,
+      });
+      return res.data;
+    },
     onMutate: async (issueId) => {
       await queryClient.cancelQueries({ queryKey: ["issues"] });
       const previousData = queryClient.getQueryData(["issues"]);
+
       queryClient.setQueryData(["issues"], (oldData) => ({
         ...oldData,
         issues: oldData.issues.map((i) =>
@@ -56,10 +63,17 @@ export default function AllIssuesPage({ currentUser }) {
             : i
         ),
       }));
+
       return { previousData };
     },
     onError: (_err, _issueId, context) => {
       queryClient.setQueryData(["issues"], context.previousData);
+      setMessage("Failed to upvote. Please try again!");
+      setTimeout(() => setMessage(null), 3000);
+    },
+    onSuccess: (_data) => {
+      setMessage("Upvoted successfully!");
+      setTimeout(() => setMessage(null), 3000);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["issues"] });
@@ -67,9 +81,23 @@ export default function AllIssuesPage({ currentUser }) {
   });
 
   const handleUpvote = (issue) => {
-    if (!currentUser) return navigate("/login");
-    if (issue.createdBy.userId === currentUser.userId) return;
-    if (issue.userUpvoted?.includes(currentUser.userId)) return;
+    if (!currentUser) {
+      setMessage("You must log in to upvote!");
+      setTimeout(() => setMessage(null), 3000);
+      return navigate("/login");
+    }
+
+    if (issue.createdBy.userId === currentUser.userId) {
+      setMessage("You cannot upvote your own issue!");
+      setTimeout(() => setMessage(null), 3000);
+      return;
+    }
+
+    if (issue.userUpvoted?.includes(currentUser.userId)) {
+      setMessage("You have already upvoted this issue!");
+      setTimeout(() => setMessage(null), 3000);
+      return;
+    }
 
     upvoteMutation.mutate(issue._id);
   };
@@ -86,7 +114,14 @@ export default function AllIssuesPage({ currentUser }) {
           </p>
         </div>
 
-      
+       
+        {message && (
+          <div className="mb-4 text-center text-sm font-semibold text-white bg-green-500 px-4 py-2 rounded-md">
+            {message}
+          </div>
+        )}
+
+     
         <div className="flex flex-wrap gap-3 mb-4 justify-center">
           <input
             type="text"
@@ -95,7 +130,6 @@ export default function AllIssuesPage({ currentUser }) {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm w-full md:w-64"
           />
-        
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
@@ -114,7 +148,8 @@ export default function AllIssuesPage({ currentUser }) {
             <option value="">All Status</option>
             <option value="Pending">Pending</option>
             <option value="In-Progress">In-Progress</option>
-            <option value="Completed">Completed</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Closed">Closed</option>
           </select>
           <select
             value={priorityFilter}
@@ -127,10 +162,9 @@ export default function AllIssuesPage({ currentUser }) {
           </select>
         </div>
 
-     
         {isFetching && <Loader size="w-10 h-10" color="border-green-500" />}
 
-        {/* Issues Grid */}
+    
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {issues.map((issue) => {
             const canUpvote =
@@ -141,10 +175,17 @@ export default function AllIssuesPage({ currentUser }) {
             return (
               <div
                 key={issue._id}
-                className={`bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition ${
+                className={`bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition relative ${
                   issue.boosted ? "ring-2 ring-yellow-400" : ""
                 }`}
               >
+               
+                {issue.boosted && (
+                  <span className="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md z-10">
+                    BOOSTED
+                  </span>
+                )}
+
                 {issue.image ? (
                   <img
                     src={issue.image}
@@ -194,7 +235,6 @@ export default function AllIssuesPage({ currentUser }) {
           })}
         </div>
 
-      
         <div className="flex justify-center mt-8 gap-2">
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}

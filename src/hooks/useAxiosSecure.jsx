@@ -10,4 +10,4 @@ const useAxiosSecure = () => {
   return AxiosSecure;
 };
 
-export default useAxiosSecure; // ✅ Default export
+export default useAxiosSecure; 

@@ -1,46 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 export default function LatestResolvedIssues() {
-  const [issues, setIssues] = useState([]);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure(); 
 
-  useEffect(() => {
-    fetch("/latest.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const resolvedIssues = data.issues.filter(
-          (issue) => issue.status === "Resolved"
-        );
-        const sorted = resolvedIssues.sort(
-          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        );
-        setIssues(sorted.slice(0, 6));
-      })
-      .catch((err) => console.error("Error loading latest.json:", err));
-  }, []);
 
-  const handleViewDetails = (id) => {
-    navigate(`/issue/${id}`);
+  const { data: issues = [], isLoading, error } = useQuery({
+    queryKey: ["latestResolvedIssues"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/issues/resolved"); 
+      const sorted = res.data
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        .slice(0, 6);
+      return sorted;
+    },
+    staleTime: 1000 * 60 * 5, 
+  });
+
+  const handleViewDetails = (issue) => {
+    navigate(`/issues/${issue._id}`);
   };
+
+  if (isLoading)
+    return <div className="text-center py-16">Loading latest resolved issues...</div>;
+  if (error)
+    return (
+      <div className="text-center py-16 text-red-500">
+        Failed to load resolved issues.
+      </div>
+    );
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="max-w-11/12 mx-auto ">
+      <div className="max-w-11/12 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Recently <span className="text-green-600">Resolved</span> Issues
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            See how community reports lead to real changes in our city
-            infrastructure
+            See how community reports lead to real changes in our city infrastructure
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {issues.map((issue) => (
             <div
-              key={issue.id}
+              key={issue._id}
               className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition"
             >
               {issue.images && issue.images[0] ? (
@@ -84,7 +92,7 @@ export default function LatestResolvedIssues() {
                 </p>
 
                 <button
-                  onClick={() => handleViewDetails(issue.id)}
+                  onClick={() => handleViewDetails(issue)}
                   className="w-full py-6 btn bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg text-[19px] transition"
                 >
                   View Details

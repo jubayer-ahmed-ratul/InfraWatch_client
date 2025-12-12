@@ -24,9 +24,7 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    // --------------------------------
-    // Firebase Auth Functions
-    // --------------------------------
+   
     const registerUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     };
@@ -49,9 +47,7 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     };
 
-    // --------------------------------
-    // Update User Profile
-    // --------------------------------
+
     const updateUserProfile = (name, photoURL) => {
         if (auth.currentUser) {
             return updateProfile(auth.currentUser, {
@@ -63,9 +59,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // --------------------------------
-    // Auth Context Info
-    // --------------------------------
+ 
     const authInfo = { 
         user, 
         loading, 
@@ -73,7 +67,7 @@ const AuthProvider = ({ children }) => {
         signInUser, 
         googleSignIn, 
         logOut,
-        updateUserProfile // <-- added here
+        updateUserProfile 
     };
 
     return (

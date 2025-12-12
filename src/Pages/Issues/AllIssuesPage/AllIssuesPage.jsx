@@ -1,57 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../../hooks/useAxiosSecure"; 
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 export default function AllIssuesPage({ currentUser }) {
-  const [issues, setIssues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchIssues = async () => {
-      try {
-        const response = await axiosSecure.get("/issues"); 
-        setIssues(response.data);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to fetch issues.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: issues = [], isLoading, error } = useQuery({
+    queryKey: ['issues'],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/issues");
+      return res.data;
+    }
+  });
 
-    fetchIssues();
-  }, [axiosSecure]);
+  const upvoteMutation = useMutation({
+    mutationFn: async (issueId) => {
+      return axiosSecure.post(`/issues/${issueId}/upvote`);
+    },
+    onMutate: async (issueId) => {
+      await queryClient.cancelQueries({ queryKey: ['issues'] });
 
-  const handleUpvote = (issueId) => {
-    const issue = issues.find((i) => i.id === issueId);
+      const previousIssues = queryClient.getQueryData({ queryKey: ['issues'] });
 
+      queryClient.setQueryData({ queryKey: ['issues'] }, (oldIssues) =>
+        oldIssues.map((i) =>
+          i.id === issueId
+            ? {
+                ...i,
+                upvotes: i.upvotes + 1,
+                userUpvoted: [...(i.userUpvoted || []), currentUser.userId],
+              }
+            : i
+        )
+      );
+
+      return { previousIssues };
+    },
+    onError: (_err, _issueId, context) => {
+      queryClient.setQueryData({ queryKey: ['issues'] }, context.previousIssues);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['issues'] });
+    }
+  });
+
+  const handleUpvote = (issueId, issue) => {
     if (!currentUser) {
       navigate("/login");
       return;
     }
-
     if (issue.createdBy.userId === currentUser.userId) return;
     if (issue.userUpvoted?.includes(currentUser.userId)) return;
 
-    setIssues((prev) =>
-      prev.map((i) =>
-        i.id === issueId
-          ? {
-              ...i,
-              upvotes: i.upvotes + 1,
-              userUpvoted: [...(i.userUpvoted || []), currentUser.userId],
-            }
-          : i
-      )
-    );
+    upvoteMutation.mutate(issueId);
   };
 
   const filteredIssues = issues
@@ -63,12 +72,17 @@ export default function AllIssuesPage({ currentUser }) {
     .filter((issue) => !priorityFilter || issue.priority === priorityFilter)
     .sort((a, b) => (b.boosted ? 1 : 0) - (a.boosted ? 1 : 0));
 
-  if (loading) return <div className="text-center py-16">Loading...</div>;
-  if (error) return <div className="text-center py-16 text-red-500">{error}</div>;
+  if (isLoading) return <div className="text-center py-16">Loading...</div>;
+  if (error)
+    return (
+      <div className="text-center py-16 text-red-500">
+        Failed to fetch issues.
+      </div>
+    );
 
   return (
     <section className="py-16 bg-gray-50 min-h-screen">
-      <div className="max-w-11/12 mx-auto ">
+      <div className="max-w-11/12 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             All <span className="text-green-600">Issues</span>
@@ -182,10 +196,10 @@ export default function AllIssuesPage({ currentUser }) {
                     Upvotes: {issue.upvotes}
                   </p>
 
-                  <div className="flex  gap-2">
+                  <div className="flex gap-2">
                     <button
-                      onClick={() => handleUpvote(issue.id)}
-                      disabled={!canUpvote}
+                      onClick={() => handleUpvote(issue.id, issue)}
+                      disabled={!canUpvote || upvoteMutation.isLoading}
                       className={`w-full py-3 rounded-lg font-semibold text-white transition ${
                         canUpvote
                           ? "bg-blue-500 hover:bg-blue-600"

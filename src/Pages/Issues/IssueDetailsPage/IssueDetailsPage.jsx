@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useAxiosSecure from "../../../hooks/useAxiosSecure"; 
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loader from "../../Home/Components/Loader/Loader";
 
 export default function IssueDetailsPage({ currentUser }) {
   const { issueId } = useParams();
@@ -27,7 +28,7 @@ export default function IssueDetailsPage({ currentUser }) {
     fetchIssue();
   }, [issueId, axiosSecure]);
 
-  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (loading) return <Loader size="w-16 h-16" color="border-green-500" />; // Loader while fetching
   if (error) return <div className="text-center py-20 text-red-500">{error}</div>;
   if (!issue) return <div className="text-center py-20 text-gray-500">Issue not found.</div>;
 

@@ -2,83 +2,77 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loader from "../../Home/Components/Loader/Loader";
 
 export default function AllIssuesPage({ currentUser }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("");
-
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  const { data: issues = [], isLoading, error } = useQuery({
-    queryKey: ['issues'],
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 9;
+
+ 
+  const { data, isLoading, isFetching, isError, error } = useQuery({
+    queryKey: ["issues", { searchQuery, categoryFilter, statusFilter, priorityFilter, page }],
     queryFn: async () => {
-      const res = await axiosSecure.get("/issues");
+      const params = new URLSearchParams({
+        page,
+        limit,
+        search: searchQuery,
+        category: categoryFilter,
+        status: statusFilter,
+        priority: priorityFilter,
+      });
+      const res = await axiosSecure.get(`/issues?${params.toString()}`);
       return res.data;
-    }
+    },
+    keepPreviousData: true,
   });
 
+  const issues = data?.issues || [];
+  const totalCount = data?.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / limit);
+
+
   const upvoteMutation = useMutation({
-    mutationFn: async (issueId) => {
-      return axiosSecure.post(`/issues/${issueId}/upvote`);
-    },
+    mutationFn: async (issueId) => axiosSecure.post(`/issues/${issueId}/upvote`),
     onMutate: async (issueId) => {
-      await queryClient.cancelQueries({ queryKey: ['issues'] });
-
-      const previousIssues = queryClient.getQueryData({ queryKey: ['issues'] });
-
-      queryClient.setQueryData({ queryKey: ['issues'] }, (oldIssues) =>
-        oldIssues.map((i) =>
-          i.id === issueId
+      await queryClient.cancelQueries({ queryKey: ["issues"] });
+      const previousData = queryClient.getQueryData(["issues"]);
+      queryClient.setQueryData(["issues"], (oldData) => ({
+        ...oldData,
+        issues: oldData.issues.map((i) =>
+          i._id === issueId
             ? {
                 ...i,
                 upvotes: i.upvotes + 1,
                 userUpvoted: [...(i.userUpvoted || []), currentUser.userId],
               }
             : i
-        )
-      );
-
-      return { previousIssues };
+        ),
+      }));
+      return { previousData };
     },
     onError: (_err, _issueId, context) => {
-      queryClient.setQueryData({ queryKey: ['issues'] }, context.previousIssues);
+      queryClient.setQueryData(["issues"], context.previousData);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['issues'] });
-    }
+      queryClient.invalidateQueries({ queryKey: ["issues"] });
+    },
   });
 
-  const handleUpvote = (issueId, issue) => {
-    if (!currentUser) {
-      navigate("/login");
-      return;
-    }
+  const handleUpvote = (issue) => {
+    if (!currentUser) return navigate("/login");
     if (issue.createdBy.userId === currentUser.userId) return;
     if (issue.userUpvoted?.includes(currentUser.userId)) return;
 
-    upvoteMutation.mutate(issueId);
+    upvoteMutation.mutate(issue._id);
   };
-
-  const filteredIssues = issues
-    .filter((issue) =>
-      issue.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter((issue) => !categoryFilter || issue.category === categoryFilter)
-    .filter((issue) => !statusFilter || issue.status === statusFilter)
-    .filter((issue) => !priorityFilter || issue.priority === priorityFilter)
-    .sort((a, b) => (b.boosted ? 1 : 0) - (a.boosted ? 1 : 0));
-
-  if (isLoading) return <div className="text-center py-16">Loading...</div>;
-  if (error)
-    return (
-      <div className="text-center py-16 text-red-500">
-        Failed to fetch issues.
-      </div>
-    );
 
   return (
     <section className="py-16 bg-gray-50 min-h-screen">
@@ -92,7 +86,8 @@ export default function AllIssuesPage({ currentUser }) {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3 mb-8 justify-center">
+      
+        <div className="flex flex-wrap gap-3 mb-4 justify-center">
           <input
             type="text"
             placeholder="Search issues..."
@@ -100,6 +95,7 @@ export default function AllIssuesPage({ currentUser }) {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm w-full md:w-64"
           />
+        
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
@@ -131,8 +127,12 @@ export default function AllIssuesPage({ currentUser }) {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredIssues.map((issue) => {
+     
+        {isFetching && <Loader size="w-10 h-10" color="border-green-500" />}
+
+        {/* Issues Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+          {issues.map((issue) => {
             const canUpvote =
               currentUser &&
               currentUser.userId !== issue.createdBy.userId &&
@@ -140,7 +140,7 @@ export default function AllIssuesPage({ currentUser }) {
 
             return (
               <div
-                key={issue.id}
+                key={issue._id}
                 className={`bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition ${
                   issue.boosted ? "ring-2 ring-yellow-400" : ""
                 }`}
@@ -162,33 +162,6 @@ export default function AllIssuesPage({ currentUser }) {
                   <p className="text-sm text-gray-500 mb-3 line-clamp-2">
                     {issue.description}
                   </p>
-
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-200">
-                      {issue.category}
-                    </span>
-                    <span
-                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        issue.status === "Completed"
-                          ? "bg-green-500 text-white"
-                          : issue.status === "In-Progress"
-                          ? "bg-blue-500 text-white"
-                          : "bg-yellow-500 text-white"
-                      }`}
-                    >
-                      {issue.status}
-                    </span>
-                    <span
-                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        issue.priority === "High"
-                          ? "bg-red-500 text-white"
-                          : "bg-blue-500 text-white"
-                      }`}
-                    >
-                      {issue.priority}
-                    </span>
-                  </div>
-
                   <p className="text-sm text-gray-400 mb-2">
                     Location: {issue.location}
                   </p>
@@ -198,7 +171,7 @@ export default function AllIssuesPage({ currentUser }) {
 
                   <div className="flex gap-2">
                     <button
-                      onClick={() => handleUpvote(issue.id, issue)}
+                      onClick={() => handleUpvote(issue)}
                       disabled={!canUpvote || upvoteMutation.isLoading}
                       className={`w-full py-3 rounded-lg font-semibold text-white transition ${
                         canUpvote
@@ -221,11 +194,26 @@ export default function AllIssuesPage({ currentUser }) {
           })}
         </div>
 
-        {filteredIssues.length === 0 && (
-          <div className="text-center py-16 text-gray-500">
-            No issues found.
-          </div>
-        )}
+      
+        <div className="flex justify-center mt-8 gap-2">
+          <button
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2">
+            {page} / {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </section>
   );

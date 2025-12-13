@@ -1,12 +1,14 @@
-
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext/AuthContext"; 
 
-export default function DashboardLayout({ currentUser, onLogout }) {
+export default function DashboardLayout({ onLogout }) {
+  const { user: currentUser, logOut } = useContext(AuthContext); // <- get user here
   const navigate = useNavigate();
 
   const handleLogout = () => {
     if (onLogout) onLogout();
+    logOut();
     navigate("/login");
   };
 
@@ -19,17 +21,34 @@ export default function DashboardLayout({ currentUser, onLogout }) {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar */}
       <aside className="w-64 bg-white shadow-lg p-6 flex flex-col">
-        <div className="mb-10 text-center">
-          <img
-            src={currentUser?.photoURL || "/default-avatar.png"}
-            alt={currentUser?.name}
-            className="w-16 h-16 mx-auto rounded-full mb-2"
-          />
-          <h2 className="font-bold text-lg">{currentUser?.name}</h2>
+        {/* User Info */}
+        <div className="mb-6 text-center">
+          <div className="relative w-20 h-20 mx-auto mb-2">
+            <img
+              src={currentUser?.photoURL || "/default-avatar.png"}
+              alt={currentUser?.displayName || "No Name"}
+              className="w-20 h-20 rounded-full border-2 border-green-500 object-cover"
+            />
+            {currentUser?.isPremium && (
+              <span className="absolute bottom-0 right-0 bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full">
+                Premium
+              </span>
+            )}
+          </div>
+
+          <h2 className="font-bold text-lg">{currentUser?.displayName || "No Name"}</h2>
           <p className="text-sm text-gray-500">{currentUser?.role || "User"}</p>
+
+          {currentUser?.isBlocked && (
+            <p className="mt-2 text-red-600 text-sm font-medium">
+              ⚠ Blocked. Contact authorities.
+            </p>
+          )}
         </div>
 
+        {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {menuItems.map((item) => (
             <NavLink
@@ -46,6 +65,7 @@ export default function DashboardLayout({ currentUser, onLogout }) {
           ))}
         </nav>
 
+        {/* Logout */}
         <button
           onClick={handleLogout}
           className="mt-auto px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
@@ -54,6 +74,7 @@ export default function DashboardLayout({ currentUser, onLogout }) {
         </button>
       </aside>
 
+      {/* Main Content */}
       <main className="flex-1 p-6">
         <Outlet />
       </main>

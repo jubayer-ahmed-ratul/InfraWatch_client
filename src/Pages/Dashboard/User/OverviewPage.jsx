@@ -14,6 +14,9 @@ const DashboardPage = () => {
   const [monthlyData, setMonthlyData] = useState([]);
   const [issueData, setIssueData] = useState([]);
 
+  // Normalize status for consistent counting
+  const normalizeStatus = (status) => status.toLowerCase().replace(/[-_\s]/g, "");
+
   useEffect(() => {
     const fetchIssues = async () => {
       try {
@@ -21,13 +24,13 @@ const DashboardPage = () => {
         const issues = res.data.issues || [];
 
         const total = issues.length;
-        const pending = issues.filter(i => i.status.toLowerCase() === "pending").length;
-        const inProgress = issues.filter(i => i.status.toLowerCase() === "inprogress").length;
-        const resolved = issues.filter(i => i.status.toLowerCase() === "resolved").length;
+        const pending = issues.filter(i => normalizeStatus(i.status) === "pending").length;
+        const inProgress = issues.filter(i => normalizeStatus(i.status) === "inprogress").length;
+        const resolved = issues.filter(i => normalizeStatus(i.status) === "resolved").length;
 
         setIssueStats({ total, pending, inProgress, resolved });
 
-     
+        // Monthly summary (example / placeholder)
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
         const monthlySummary = months.map((month, idx) => ({
           month,
@@ -36,7 +39,7 @@ const DashboardPage = () => {
         }));
         setMonthlyData(monthlySummary);
 
-      
+        // Pie chart data
         setIssueData([
           { name: "Pending", value: pending },
           { name: "In Progress", value: inProgress },

@@ -2,29 +2,46 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../../context/AuthContext/AuthContext";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure"; 
 
 const GoogleLogin = () => {
   const { googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleGoogleLogin = async () => {
     try {
       const result = await googleSignIn();
+      const user = result.user;
+
+      const userData = {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      };
+
+      // Use AxiosSecure instance
+      const response = await axiosSecure.post("/users", userData);
+
+      const dbUser = response.data;
+      console.log("User saved/fetched from DB:", dbUser);
 
       Swal.fire({
         icon: "success",
         title: "Google Login Successful",
-        text: `Welcome, ${result.user.displayName || result.user.email}!`,
+        text: `Welcome, ${dbUser.name || dbUser.email}!`,
         showConfirmButton: false,
         timer: 2000,
       });
 
       navigate("/");
     } catch (error) {
+      console.error("Google login error:", error);
       Swal.fire({
         icon: "error",
         title: "Google Login Failed",
-        text: error.message,
+        text: error.response?.data?.error || error.message,
       });
     }
   };

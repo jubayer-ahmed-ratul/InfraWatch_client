@@ -75,7 +75,7 @@ const ReportIssuePage = () => {
         createdBy: {
           userId: user.uid,
           name: user.displayName,
-        },
+  userEmail: user.email        },
         assignedStaff: null,
         timeline: [
           {

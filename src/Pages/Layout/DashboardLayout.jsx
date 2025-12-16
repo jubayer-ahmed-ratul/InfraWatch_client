@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext/AuthContext"; 
 
 export default function DashboardLayout({ onLogout }) {
-  const { user: currentUser, logOut } = useContext(AuthContext); // <- get user here
+  const { user: currentUser, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,9 +21,9 @@ export default function DashboardLayout({ onLogout }) {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
+     
       <aside className="w-64 bg-white shadow-lg p-6 flex flex-col">
-        {/* User Info */}
+      
         <div className="mb-6 text-center">
           <div className="relative w-20 h-20 mx-auto mb-2">
             <img
@@ -48,7 +48,6 @@ export default function DashboardLayout({ onLogout }) {
           )}
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {menuItems.map((item) => (
             <NavLink
@@ -65,7 +64,6 @@ export default function DashboardLayout({ onLogout }) {
           ))}
         </nav>
 
-        {/* Logout */}
         <button
           onClick={handleLogout}
           className="mt-auto px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
@@ -74,7 +72,6 @@ export default function DashboardLayout({ onLogout }) {
         </button>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-6">
         <Outlet />
       </main>

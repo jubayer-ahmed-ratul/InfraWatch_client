@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Card } from "../Card/Card";
 import { AlertCircle, Clock, TrendingUp, CheckCircle, DollarSign } from "lucide-react";
@@ -6,21 +6,24 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   PieChart, Pie, Cell, ResponsiveContainer
 } from "recharts";
+import { AuthContext } from "../../../context/AuthContext/AuthContext"; 
 
 const DashboardPage = () => {
+  const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [issueStats, setIssueStats] = useState({ total: 0, pending: 0, inProgress: 0, resolved: 0 });
   const [payments, setPayments] = useState(0); 
   const [monthlyData, setMonthlyData] = useState([]);
   const [issueData, setIssueData] = useState([]);
 
-  // Normalize status for consistent counting
   const normalizeStatus = (status) => status.toLowerCase().replace(/[-_\s]/g, "");
 
   useEffect(() => {
-    const fetchIssues = async () => {
+    if (!user?.email) return; 
+
+    const fetchUserIssues = async () => {
       try {
-        const res = await axiosSecure.get("/issues?limit=1000"); 
+        const res = await axiosSecure.get(`/issues/user/${user.email}?limit=1000`);
         const issues = res.data.issues || [];
 
         const total = issues.length;
@@ -30,16 +33,14 @@ const DashboardPage = () => {
 
         setIssueStats({ total, pending, inProgress, resolved });
 
-        // Monthly summary (example / placeholder)
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
         const monthlySummary = months.map((month, idx) => ({
           month,
-          issues: Math.floor(Math.random() * 50) + 20, 
-          resolved: Math.floor(Math.random() * 30) + 10
+          issues: Math.floor(Math.random() * 10) + 5, 
+          resolved: Math.floor(Math.random() * 5) + 2
         }));
         setMonthlyData(monthlySummary);
 
-        // Pie chart data
         setIssueData([
           { name: "Pending", value: pending },
           { name: "In Progress", value: inProgress },
@@ -47,12 +48,12 @@ const DashboardPage = () => {
         ]);
 
       } catch (err) {
-        console.error("Error fetching issues:", err);
+        console.error("Error fetching user issues:", err);
       }
     };
 
-    fetchIssues();
-  }, [axiosSecure]);
+    fetchUserIssues();
+  }, [axiosSecure, user]);
 
   const pieColors = ['#f59e0b', '#3b82f6', '#10b981'];
 

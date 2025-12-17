@@ -1,3 +1,4 @@
+// router.jsx
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Pages/Layout/RootLayout";
 import AuthLayout from "../Pages/Layout/AuthLayout";
@@ -9,13 +10,14 @@ import Register from "../Pages/Home/Private/Register/Register";
 import AllIssuesPage from "../Pages/Issues/AllIssuesPage/AllIssuesPage";
 import IssueDetailsPage from "../Pages/Issues/IssueDetailsPage/IssueDetailsPage";
 
-// Dashboard pages
 import OverviewPage from "../Pages/Dashboard/User/OverviewPage";
 import MyIssuesPage from "../Pages/Dashboard/User/MyIssuesPage";
 import ReportIssuePage from "../Pages/Dashboard/User/ReportIssuePage";
 import ProfilePage from "../Pages/Dashboard/User/ProfilePage";
+import PaymentSuccess from "../Pages/Dashboard/User/PaymentSuccess";
 
 import PrivateRoute from "./PrivateRoute";
+import BoostSuccessPage from "../Pages/Issues/BoostSuccessPage/BoostSuccessPage";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess />, 
+      },
+      {
+        path:"boost-success",
+        element:<BoostSuccessPage></BoostSuccessPage>
+      }
     ],
   },
   {
@@ -54,6 +64,7 @@ export const router = createBrowserRouter([
       { path: "my-issues", element: <MyIssuesPage /> },
       { path: "report-issue", element: <ReportIssuePage /> },
       { path: "profile", element: <ProfilePage /> },
+      
     ],
   },
 ]);

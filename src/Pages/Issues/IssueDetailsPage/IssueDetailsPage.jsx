@@ -28,7 +28,7 @@ export default function IssueDetailsPage({ currentUser }) {
     fetchIssue();
   }, [issueId, axiosSecure]);
 
-  if (loading) return <Loader size="w-16 h-16" color="border-green-500" />; // Loader while fetching
+  if (loading) return <Loader size="w-16 h-16" color="border-green-500" />; 
   if (error) return <div className="text-center py-20 text-red-500">{error}</div>;
   if (!issue) return <div className="text-center py-20 text-gray-500">Issue not found.</div>;
 
@@ -39,10 +39,21 @@ export default function IssueDetailsPage({ currentUser }) {
 
   const handleEdit = () => alert("Edit functionality coming soon!");
   const handleDelete = () => alert("Delete functionality coming soon!");
-  const handleBoost = () => {
-    alert("Payment & boost functionality coming soon!");
-    setIssue((prev) => ({ ...prev, boosted: true, priority: "High" }));
-  };
+ const handleBoost = async () => {
+  try {
+    const response = await axiosSecure.post(`/issues/${issue._id}/boost-session`, {
+      userEmail: currentUser?.email,
+    });
+
+    if (response.data.url) {
+      window.location.href = response.data.url; 
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Failed to start boost payment.");
+  }
+};
+
 
   return (
     <section className="py-16 bg-gray-50 min-h-screen">

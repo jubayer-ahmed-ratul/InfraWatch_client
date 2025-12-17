@@ -17,7 +17,8 @@ import ProfilePage from "../Pages/Dashboard/User/ProfilePage";
 import PaymentSuccess from "../Pages/Dashboard/User/PaymentSuccess";
 
 import PrivateRoute from "./PrivateRoute";
-import BoostSuccessPage from "../Pages/Issues/BoostSuccessPage/BoostSuccessPage";
+import BoostSuccess from "../Pages/Issues/BoostSuccessPage/BoostSuccess";
+
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
       },
       {
         path:"boost-success",
-        element:<BoostSuccessPage></BoostSuccessPage>
+        element:<BoostSuccess></BoostSuccess>
       }
     ],
   },

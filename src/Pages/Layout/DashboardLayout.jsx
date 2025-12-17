@@ -13,10 +13,12 @@ export default function DashboardLayout({ onLogout }) {
   };
 
   const menuItems = [
+  
     { name: "Dashboard", path: "/dashboard" },
     { name: "My Issues", path: "/dashboard/my-issues" },
     { name: "Report Issue", path: "/dashboard/report-issue" },
     { name: "Profile", path: "/dashboard/profile" },
+    
   ];
 
   return (

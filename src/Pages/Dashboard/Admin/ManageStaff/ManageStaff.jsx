@@ -9,13 +9,13 @@ const ManageStaff = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch all staff AND issues
+
   const fetchAllData = async () => {
     try {
       setLoading(true);
       const [staffRes, issuesRes] = await Promise.all([
         axiosSecure.get("/staff"),
-        axiosSecure.get("/issues?limit=100") // Get more issues for assignment
+        axiosSecure.get("/issues?limit=100") 
       ]);
       setStaffList(staffRes.data);
       setIssuesList(issuesRes.data.issues);
@@ -30,39 +30,56 @@ const ManageStaff = () => {
     fetchAllData();
   }, [axiosSecure]);
 
-  // Add new staff (same as before)
-  const handleAddStaff = async () => {
-    const { value: formValues } = await Swal.fire({
-      title: "Add New Staff",
-      html:
-        '<input id="swal-name" class="swal2-input" placeholder="Name">' +
-        '<input id="swal-email" class="swal2-input" placeholder="Email">' +
-        '<input id="swal-phone" class="swal2-input" placeholder="Phone">' +
-        '<input id="swal-password" type="password" class="swal2-input" placeholder="Password">',
-      focusConfirm: false,
-      preConfirm: () => {
-        return {
-          name: document.getElementById("swal-name").value,
-          email: document.getElementById("swal-email").value,
-          phone: document.getElementById("swal-phone").value,
-          password: document.getElementById("swal-password").value,
-        };
-      },
-    });
 
-    if (formValues) {
-      try {
-        await axiosSecure.post("/staff", formValues);
-        fetchAllData();
-        Swal.fire("Success", "Staff added successfully", "success");
-      } catch (err) {
-        console.error(err);
-        Swal.fire("Error", "Failed to add staff", "error");
+// ManageStaff.js - handleAddStaff ফাংশন আপডেট করুন
+const handleAddStaff = async () => {
+  const { value: formValues } = await Swal.fire({
+    title: "Add New Staff",
+    html:
+      '<input id="swal-name" class="swal2-input" placeholder="Name" required>' +
+      '<input id="swal-email" type="email" class="swal2-input" placeholder="Email" required>' +
+      '<input id="swal-phone" class="swal2-input" placeholder="Phone" pattern="[0-9]{11}" title="11 digit phone number">' +
+      '<input id="swal-password" type="password" class="swal2-input" placeholder="Password (min 6 characters)" minlength="6" required>',
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonText: "Add Staff",
+    preConfirm: () => {
+      const name = document.getElementById("swal-name").value;
+      const email = document.getElementById("swal-email").value;
+      const phone = document.getElementById("swal-phone").value;
+      const password = document.getElementById("swal-password").value;
+      
+      if (!name || !email || !password) {
+        Swal.showValidationMessage("Please fill all required fields");
+        return false;
       }
-    }
-  };
+      
+      if (password.length < 6) {
+        Swal.showValidationMessage("Password must be at least 6 characters");
+        return false;
+      }
+      
+      return { name, email, phone, password };
+    },
+  });
 
-  // Delete staff
+  if (formValues) {
+    try {
+      const response = await axiosSecure.post("/staff", formValues);
+      fetchAllData();
+      Swal.fire("Success", response.data.message || "Staff added successfully", "success");
+    } catch (err) {
+      console.error("Error adding staff:", err.response?.data || err.message);
+      Swal.fire(
+        "Error", 
+        err.response?.data?.error || err.response?.data?.message || "Failed to add staff", 
+        "error"
+      );
+    }
+  }
+};
+
+
   const handleDeleteStaff = async (id, name) => {
     const confirm = await Swal.fire({
       title: `Delete ${name}?`,
@@ -84,9 +101,9 @@ const ManageStaff = () => {
     }
   };
 
-  // Assign staff to an issue
+
   const handleAssignToIssue = async (staffId, staffName) => {
-    // Filter unassigned issues
+   
     const unassignedIssues = issuesList.filter(issue => !issue.assignedStaff);
     
     if (unassignedIssues.length === 0) {
@@ -94,7 +111,7 @@ const ManageStaff = () => {
       return;
     }
 
-    // Create options for select
+ 
     const issueOptions = unassignedIssues.map(issue => 
       `<option value="${issue._id}">${issue.title} (${issue.category})</option>`
     ).join('');
@@ -178,7 +195,7 @@ const ManageStaff = () => {
         </button>
       </div>
 
-      {/* Stats */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <h3 className="text-lg font-semibold text-blue-800">Total Staff</h3>
@@ -198,7 +215,7 @@ const ManageStaff = () => {
         </div>
       </div>
 
-      {/* Mobile view */}
+    
       <div className="md:hidden space-y-4">
         {staffList.map((staff) => (
           <div
@@ -251,7 +268,7 @@ const ManageStaff = () => {
         ))}
       </div>
 
-      {/* Desktop/table view */}
+     
       <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
         <table className="w-full min-w-max">
           <thead className="bg-gray-50">

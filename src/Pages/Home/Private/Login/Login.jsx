@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom"; 
 import Swal from "sweetalert2";
@@ -6,10 +6,10 @@ import { AuthContext } from "../../../../context/AuthContext/AuthContext";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation(); 
-  const from = location.state?.from?.pathname || "/"; 
+  const from = location.state?.from?.pathname || "/";
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -25,7 +25,6 @@ const Login = () => {
         timer: 2000,
       });
 
-      navigate(from, { replace: true });
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -34,6 +33,19 @@ const Login = () => {
       });
     }
   };
+
+  // Redirect after login based on role
+  useEffect(() => {
+    if (user) {
+      if (user.role === "staff") {
+        navigate("/dashboard/staff", { replace: true });
+      } else if (user.role === "admin") {
+        navigate("/dashboard/admin", { replace: true });
+      } else {
+        navigate(from, { replace: true });
+      }
+    }
+  }, [user, navigate, from]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -87,6 +99,7 @@ const Login = () => {
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
 
+        {/* Google login button */}
         <GoogleLogin />
 
         <p className="text-center text-gray-500 text-sm mt-6">

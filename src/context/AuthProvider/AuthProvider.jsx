@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from '../AuthContext/AuthContext';
 import { 
@@ -14,61 +15,61 @@ import { auth } from '../../firebase/firebase.init';
 import useAxiosSecure from '../../hooks/useAxiosSecure'; 
 
 const AuthProvider = ({ children }) => {
-  // Initialize user from localStorage for instant role recognition
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure(); 
 
-  // Sync Firebase user with backend database
-  const syncUserWithDatabase = async (firebaseUser) => {
-    try {
-      const response = await axiosSecure.post('/users', {
-        email: firebaseUser.email,
-        name: firebaseUser.displayName || firebaseUser.email,
-        uid: firebaseUser.uid,
-        photo: firebaseUser.photoURL || null
-      });
 
-      const dbUser = response.data;
+ const syncUserWithDatabase = async (firebaseUser) => {
+  try {
+    // Send the user info to backend to create/update user
+    const response = await axiosSecure.post('/users', {
+      email: firebaseUser.email,
+      name: firebaseUser.displayName || firebaseUser.email,
+      uid: firebaseUser.uid,
+      photo: firebaseUser.photoURL || null
+    });
 
-      return {
-        uid: firebaseUser.uid,
-        displayName: firebaseUser.displayName || firebaseUser.email,
-        email: firebaseUser.email,
-        photoURL: firebaseUser.photoURL || null,
-        dbId: dbUser._id,
-        role: dbUser.role || 'user',         // include role
-        isPremium: dbUser.premium || false,
-        premium: dbUser.premium || false,
-        isBlocked: dbUser.blocked || false,
-        blocked: dbUser.blocked || false
-      };
-    } catch (error) {
-      console.error("Error syncing user with database:", error);
-      return {
-        uid: firebaseUser.uid,
-        displayName: firebaseUser.displayName || firebaseUser.email,
-        email: firebaseUser.email,
-        photoURL: firebaseUser.photoURL || null,
-        role: 'user',
-        isPremium: false,
-        premium: false,
-        isBlocked: false,
-        blocked: false
-      };
-    }
-  };
+    const dbUser = response.data;
 
-  // Listen for Firebase auth state changes
+    // Return a fully synced user object
+    return {
+      uid: firebaseUser.uid,
+      displayName: firebaseUser.displayName || firebaseUser.email,
+      email: firebaseUser.email,
+      photoURL: firebaseUser.photoURL || null,
+      dbId: dbUser._id,
+      role: dbUser.role || 'user',       // <-- include role
+      isPremium: dbUser.premium || false,
+      premium: dbUser.premium || false,
+      isBlocked: dbUser.blocked || false,
+      blocked: dbUser.blocked || false
+    };
+  } catch (error) {
+    console.error("Error syncing user with database:", error);
+    // Fallback for failed sync
+    return {
+      uid: firebaseUser.uid,
+      displayName: firebaseUser.displayName || firebaseUser.email,
+      email: firebaseUser.email,
+      photoURL: firebaseUser.photoURL || null,
+      role: 'user',
+      isPremium: false,
+      premium: false,
+      isBlocked: false,
+      blocked: false
+    };
+  }
+};
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+       
         const syncedUser = await syncUserWithDatabase(currentUser);
         setUser(syncedUser);
+        
+       
         localStorage.setItem('user', JSON.stringify(syncedUser));
       } else {
         setUser(null);
@@ -80,16 +81,22 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // Update user safely and persist in localStorage
+ 
   const updateUser = (updates) => {
-    setUser(prev => {
-      const updatedUser = { ...prev, ...updates };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      return updatedUser;
-    });
+    setUser(prev => ({
+      ...prev,
+      ...updates
+    }));
+    
+ 
+    if (user) {
+      localStorage.setItem('user', JSON.stringify({
+        ...user,
+        ...updates
+      }));
+    }
   };
 
-  // Auth functions
   const registerUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -132,8 +139,8 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     logOut,
     updateUserProfile,
-    updateUser,
-    setUser
+    updateUser, 
+    setUser 
   };
 
   return (

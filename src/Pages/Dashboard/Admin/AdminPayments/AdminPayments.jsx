@@ -141,17 +141,12 @@ const AdminPayments = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Admin Payments</h1>
-        <button
-          onClick={handleGeneratePDF}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
-        >
-          <FaFilePdf /> Generate All PDF
-        </button>
+        <h1 className="text-2xl font-bold">All Payments</h1>
+      
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 text-center gap-4 mb-6">
         <div className="bg-white shadow rounded p-4">
           <p className="text-gray-500">Total Payments</p>
           <p className="text-2xl font-bold">{count}</p>
@@ -159,10 +154,6 @@ const AdminPayments = () => {
         <div className="bg-white shadow rounded p-4">
           <p className="text-gray-500">Total Amount</p>
           <p className="text-2xl font-bold">{totalAmount} BDT</p>
-        </div>
-        <div className="bg-white shadow rounded p-4">
-          <p className="text-gray-500">Report Period</p>
-          <p className="text-lg">From {filterDate.toLocaleDateString()}</p>
         </div>
       </div>
 

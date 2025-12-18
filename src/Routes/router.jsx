@@ -1,4 +1,4 @@
-
+// router.jsx
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Pages/Layout/RootLayout";
 import AuthLayout from "../Pages/Layout/AuthLayout";
@@ -25,6 +25,11 @@ import AdminPayments from "../Pages/Dashboard/Admin/AdminPayments/AdminPayments"
 import AdminIssuesPage from "../Pages/Dashboard/Admin/AllIssuesPage/AdminIssuesPage";
 import AdminRoute from "./AdminRoute";
 
+// Staff Components
+import StaffOverview from "../Pages/Dashboard/staff/StaffOverview/StaffOverview";
+import StaffAssignedIssues from "../Pages/Dashboard/staff/StaffAssignedIssues/StaffAssignedIssues";
+import StaffProfile from "../Pages/Dashboard/staff/StaffProfile/StaffProfile";
+import StaffRoute from "./StaffRoute";
 
 export const router = createBrowserRouter([
   {
@@ -43,12 +48,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment-success",
-        element: <PaymentSuccess />, 
+        element: <PaymentSuccess />,
       },
       {
-        path:"boost-success",
-        element:<BoostSuccess></BoostSuccess>
-      }
+        path: "boost-success",
+        element: <BoostSuccess />,
+      },
     ],
   },
   {
@@ -67,23 +72,33 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // User routes
       { index: true, element: <OverviewPage /> },
       { path: "my-issues", element: <MyIssuesPage /> },
       { path: "report-issue", element: <ReportIssuePage /> },
       { path: "profile", element: <ProfilePage /> },
 
-    
-       {
-      element: <AdminRoute />, 
-      children: [
-        { path: "admin", element: <AdminDashboard /> },
-        { path: "admin/users", element: <ManageUsers /> },
-        { path: "admin/staff", element: <ManageStaff /> },
-        { path: "admin/payments", element: <AdminPayments /> },
-        { path: "admin/allissues", element: <AdminIssuesPage></AdminIssuesPage> },
-      ],
-    },
-      
+      // Admin routes
+      {
+        element: <AdminRoute />,
+        children: [
+          { path: "admin", element: <AdminDashboard /> },
+          { path: "admin/users", element: <ManageUsers /> },
+          { path: "admin/staff", element: <ManageStaff /> },
+          { path: "admin/payments", element: <AdminPayments /> },
+          { path: "admin/allissues", element: <AdminIssuesPage /> },
+        ],
+      },
+
+      // Staff routes - নতুন স্টাফ রাউটস যুক্ত করুন
+      {
+        element: <StaffRoute />,
+        children: [
+          { path: "staff", element: <StaffOverview /> },
+          { path: "staff/assigned-issues", element: <StaffAssignedIssues /> },
+          { path: "staff/profile", element: <StaffProfile /> },
+        ],
+      },
     ],
   },
 ]);

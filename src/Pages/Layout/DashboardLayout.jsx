@@ -1,13 +1,29 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext/AuthContext"; 
-import { Menu, X, ChevronLeft, ChevronRight, LogOut, User } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  ChevronLeft, 
+  ChevronRight, 
+  LogOut, 
+  Home,
+  AlertCircle,
+  PlusCircle,
+  User,
+  Shield,
+  Users,
+  CreditCard,
+  FileText,
+  Briefcase,
+  CheckCircle,
+  Settings
+} from "lucide-react";
 
 export default function DashboardLayout({ onLogout }) {
   const { user: currentUser, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   
-  // State for sidebar visibility
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -16,22 +32,20 @@ export default function DashboardLayout({ onLogout }) {
   const sidebarRef = useRef(null);
   const userMenuRef = useRef(null);
 
-  // Check if mobile on mount and resize
   useEffect(() => {
     const checkIfMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile) {
-        setIsSidebarOpen(true); // Always open on desktop
+        setIsSidebarOpen(true);
       } else {
-        setIsSidebarOpen(false); // Closed by default on mobile
+        setIsSidebarOpen(false);
       }
     };
 
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
     
-    // Close user menu when clicking outside
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setShowUserMenu(false);
@@ -51,21 +65,92 @@ export default function DashboardLayout({ onLogout }) {
     navigate("/login");
   };
 
-  const menuItems = [
-    { name: "Dashboard", path: "/dashboard",  },
-    { name: "My Issues", path: "/dashboard/my-issues",  },
-    { name: "Report Issue", path: "/dashboard/report-issue",  },
-    { name: "Profile", path: "/dashboard/profile",  },
+  // Common menu items for all users
+  const baseMenuItems = [
+    { 
+      name: "Dashboard", 
+      path: "/dashboard", 
+      icon: <Home className="w-5 h-5" />
+    },
   ];
 
+  // User specific menu items
+  const userMenuItems = [
+    { 
+      name: "My Issues", 
+      path: "/dashboard/my-issues", 
+      icon: <FileText className="w-5 h-5" />
+    },
+    { 
+      name: "Report Issue", 
+      path: "/dashboard/report-issue", 
+      icon: <PlusCircle className="w-5 h-5" />
+    },
+    { 
+      name: "Profile", 
+      path: "/dashboard/profile", 
+      icon: <User className="w-5 h-5" />
+    },
+  ];
+
+  // Admin specific menu items
+  const adminMenuItems = [
+    { 
+      name: "Admin Dashboard", 
+      path: "/dashboard/admin", 
+      icon: <Shield className="w-5 h-5" />
+    },
+    { 
+      name: "All Issues", 
+      path: "/dashboard/admin/allissues", 
+      icon: <AlertCircle className="w-5 h-5" />
+    },
+    { 
+      name: "Manage Users", 
+      path: "/dashboard/admin/users", 
+      icon: <Users className="w-5 h-5" />
+    },
+    { 
+      name: "Manage Staff", 
+      path: "/dashboard/admin/staff", 
+      icon: <Briefcase className="w-5 h-5" />
+    },
+    { 
+      name: "Payments", 
+      path: "/dashboard/admin/payments", 
+      icon: <CreditCard className="w-5 h-5" />
+    },
+  ];
+
+  // Staff specific menu items
+  const staffMenuItems = [
+    { 
+      name: "Staff Dashboard", 
+      path: "/dashboard/staff", 
+      icon: <Briefcase className="w-5 h-5" />
+    },
+    { 
+      name: "Assigned Issues", 
+      path: "/dashboard/staff/assigned-issues", 
+      icon: <CheckCircle className="w-5 h-5" />
+    },
+    { 
+      name: "Staff Profile", 
+      path: "/dashboard/staff/profile", 
+      icon: <Settings className="w-5 h-5" />
+    },
+  ];
+
+  // Build menu items based on user role
+  let menuItems = [...baseMenuItems];
+  
   if (currentUser?.role === "admin") {
-    menuItems.push(
-      { name: "Admin Dashboard", path: "/dashboard/admin",  },
-      { name: "Issues", path: "/dashboard/admin/allissues", },
-      { name: "Manage Users", path: "/dashboard/admin/users", },
-      { name: "Manage Staff", path: "/dashboard/admin/staff",  },
-      { name: "Payments", path: "/dashboard/admin/payments",  },
-    );
+    menuItems = [...menuItems, ...userMenuItems, ...adminMenuItems];
+  } else if (currentUser?.role === "staff") {
+    menuItems = [...menuItems, ...staffMenuItems];
+  } else {
+    // Regular user
+    menuItems = [...menuItems, ...userMenuItems];
   }
 
   const toggleSidebar = () => {
@@ -76,14 +161,12 @@ export default function DashboardLayout({ onLogout }) {
     }
   };
 
-
   const handleNavLinkClick = () => {
     if (isMobile) {
       setIsSidebarOpen(false);
     }
   };
 
- 
   const getUserInitials = () => {
     if (!currentUser?.displayName) return "U";
     return currentUser.displayName
@@ -94,9 +177,18 @@ export default function DashboardLayout({ onLogout }) {
       .slice(0, 2);
   };
 
+  // Get role display text
+  const getRoleDisplay = () => {
+    switch(currentUser?.role) {
+      case 'admin': return 'Administrator';
+      case 'staff': return 'Staff Member';
+      case 'user': return 'User';
+      default: return 'User';
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
-
       {isMobile && isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30"
@@ -104,7 +196,6 @@ export default function DashboardLayout({ onLogout }) {
         />
       )}
 
-  
       <aside
         ref={sidebarRef}
         className={`
@@ -116,7 +207,6 @@ export default function DashboardLayout({ onLogout }) {
           ${!isMobile && !isSidebarCollapsed ? "translate-x-0" : ""}
         `}
       >
-     
         {isMobile && (
           <button
             onClick={() => setIsSidebarOpen(false)}
@@ -126,7 +216,6 @@ export default function DashboardLayout({ onLogout }) {
           </button>
         )}
 
-       
         <div className={`mb-6 ${isSidebarCollapsed && !isMobile ? "px-0 text-center" : "text-center"}`}>
           <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-2">
             {currentUser?.photoURL ? (
@@ -153,19 +242,18 @@ export default function DashboardLayout({ onLogout }) {
                 {currentUser?.displayName || "No Name"}
               </h2>
               <p className="text-xs md:text-sm text-gray-500">
-                {currentUser?.role || "User"}
+                {getRoleDisplay()}
               </p>
 
               {currentUser?.isBlocked && (
                 <p className="mt-2 text-red-600 text-xs font-medium">
-                  Blocked
+                  Account Blocked
                 </p>
               )}
             </>
           )}
         </div>
 
-      
         <nav className="flex-1 space-y-1 md:space-y-2">
           {menuItems.map((item) => (
             <NavLink
@@ -179,7 +267,9 @@ export default function DashboardLayout({ onLogout }) {
               `}
               title={isSidebarCollapsed && !isMobile ? item.name : ""}
             >
-              <span className="mr-2 md:mr-3">{item.icon}</span>
+              <span className={`${isSidebarCollapsed && !isMobile ? "" : "mr-2 md:mr-3"}`}>
+                {item.icon}
+              </span>
               {(!isSidebarCollapsed || isMobile) && (
                 <span className="truncate">{item.name}</span>
               )}
@@ -187,7 +277,6 @@ export default function DashboardLayout({ onLogout }) {
           ))}
         </nav>
 
-      
         <button
           onClick={handleLogout}
           className={`
@@ -197,16 +286,20 @@ export default function DashboardLayout({ onLogout }) {
           `}
           title={isSidebarCollapsed && !isMobile ? "Logout" : ""}
         >
-          {(!isSidebarCollapsed || isMobile) && "Logout"}
-          <LogOut className={`w-4 h-4 ${isSidebarCollapsed && !isMobile ? "" : "hidden"}`} />
+          {(!isSidebarCollapsed || isMobile) && (
+            <>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </>
+          )}
+          {isSidebarCollapsed && !isMobile && (
+            <LogOut className="w-5 h-5" />
+          )}
         </button>
       </aside>
 
- 
       <main className="flex-1 p-4 md:p-6">
-     
         <div className="flex items-center justify-between mb-4 md:mb-6 pb-4 border-b">
-          
           <button
             onClick={toggleSidebar}
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -220,13 +313,6 @@ export default function DashboardLayout({ onLogout }) {
               <ChevronLeft className="w-6 h-6" />
             )}
           </button>
-
-
-      
-            
-
-           
-        
         </div>
 
         <Outlet />

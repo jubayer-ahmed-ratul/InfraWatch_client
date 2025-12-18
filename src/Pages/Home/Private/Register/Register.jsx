@@ -94,7 +94,7 @@ const Register = () => {
         </h2>
 
         <form onSubmit={handleSubmit(handleRegistration)} className="space-y-5">
-          <div className="flex flex-col">
+           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700">Name</label>
             <input
               type="text"
@@ -105,7 +105,7 @@ const Register = () => {
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
 
-          <div className="flex flex-col">
+           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700">Email</label>
             <input
               type="email"
@@ -116,7 +116,7 @@ const Register = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
-          <div className="flex flex-col">
+           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700">Password</label>
             <input
               type="password"
@@ -130,7 +130,7 @@ const Register = () => {
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
 
-          <div className="flex flex-col">
+           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700">Upload Photo</label>
             <input
               type="file"

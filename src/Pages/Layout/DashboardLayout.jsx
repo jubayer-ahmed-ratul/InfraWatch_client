@@ -13,13 +13,22 @@ export default function DashboardLayout({ onLogout }) {
   };
 
   const menuItems = [
-  
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "My Issues", path: "/dashboard/my-issues" },
-    { name: "Report Issue", path: "/dashboard/report-issue" },
-    { name: "Profile", path: "/dashboard/profile" },
-    
-  ];
+  { name: "Dashboard", path: "/dashboard" },
+  { name: "My Issues", path: "/dashboard/my-issues" },
+  { name: "Report Issue", path: "/dashboard/report-issue" },
+  { name: "Profile", path: "/dashboard/profile" },
+];
+
+// যদি admin হয়
+if (currentUser?.role === "admin") {
+  menuItems.push(
+    { name: "Admin Dashboard", path: "/dashboard/admin" },
+    { name: "Manage Users", path: "/dashboard/admin/users" },
+    { name: "Manage Staff", path: "/dashboard/admin/staff" },
+    { name: "Payments", path: "/dashboard/admin/payments" }
+  );
+}
+
 
   return (
     <div className="flex min-h-screen bg-gray-50">

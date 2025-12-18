@@ -18,6 +18,11 @@ import PaymentSuccess from "../Pages/Dashboard/User/PaymentSuccess";
 
 import PrivateRoute from "./PrivateRoute";
 import BoostSuccess from "../Pages/Issues/BoostSuccessPage/BoostSuccess";
+import AdminDashboard from "../Pages/Dashboard/Admin/AdminDashboard/AdminDashboard";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
+import ManageStaff from "../Pages/Dashboard/Admin/ManageStaff/ManageStaff";
+import AdminPayments from "../Pages/Dashboard/Admin/AdminPayments/AdminPayments";
+import AdminRoute from "./AdminRoute";
 
 
 export const router = createBrowserRouter([
@@ -65,6 +70,17 @@ export const router = createBrowserRouter([
       { path: "my-issues", element: <MyIssuesPage /> },
       { path: "report-issue", element: <ReportIssuePage /> },
       { path: "profile", element: <ProfilePage /> },
+
+    
+       {
+      element: <AdminRoute />, 
+      children: [
+        { path: "admin", element: <AdminDashboard /> },
+        { path: "admin/users", element: <ManageUsers /> },
+        { path: "admin/staff", element: <ManageStaff /> },
+        { path: "admin/payments", element: <AdminPayments /> },
+      ],
+    },
       
     ],
   },

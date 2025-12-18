@@ -21,7 +21,7 @@ const GoogleLogin = () => {
         photo: user.photoURL,
       };
 
-      // Use AxiosSecure instance
+   
       const response = await axiosSecure.post("/users", userData);
 
       const dbUser = response.data;
@@ -52,7 +52,7 @@ const GoogleLogin = () => {
       onClick={handleGoogleLogin}
       className="btn bg-white text-black border-[#e5e5e5] flex items-center gap-2 w-full hover:bg-gray-100 transition"
     >
-      {/* Google SVG */}
+   
       <svg
         aria-label="Google logo"
         width="16"

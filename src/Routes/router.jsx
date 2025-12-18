@@ -1,4 +1,4 @@
-// router.jsx
+
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Pages/Layout/RootLayout";
 import AuthLayout from "../Pages/Layout/AuthLayout";
@@ -22,6 +22,7 @@ import AdminDashboard from "../Pages/Dashboard/Admin/AdminDashboard/AdminDashboa
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
 import ManageStaff from "../Pages/Dashboard/Admin/ManageStaff/ManageStaff";
 import AdminPayments from "../Pages/Dashboard/Admin/AdminPayments/AdminPayments";
+import AdminIssuesPage from "../Pages/Dashboard/Admin/AllIssuesPage/AdminIssuesPage";
 import AdminRoute from "./AdminRoute";
 
 
@@ -79,6 +80,7 @@ export const router = createBrowserRouter([
         { path: "admin/users", element: <ManageUsers /> },
         { path: "admin/staff", element: <ManageStaff /> },
         { path: "admin/payments", element: <AdminPayments /> },
+        { path: "admin/allissues", element: <AdminIssuesPage></AdminIssuesPage> },
       ],
     },
       

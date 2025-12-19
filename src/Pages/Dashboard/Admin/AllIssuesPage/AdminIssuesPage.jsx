@@ -11,14 +11,14 @@ const AdminIssuesPage = () => {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Responsive handle
+  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fetch data
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -39,7 +39,7 @@ const AdminIssuesPage = () => {
     fetchData();
   }, [axiosSecure]);
 
-  // Filter issues
+ 
   const filteredIssues = issues.filter(issue => {
     const matchesSearch = filter.search
       ? issue.title.toLowerCase().includes(filter.search.toLowerCase()) ||
@@ -50,7 +50,7 @@ const AdminIssuesPage = () => {
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
-  // Assign staff
+ 
   const handleAssignStaff = async (issueId) => {
     if (staffList.length === 0) {
       Swal.fire('No Staff', 'Add staff members first', 'info');
@@ -82,7 +82,6 @@ const AdminIssuesPage = () => {
     }
   };
 
-  // Delete issue
   const handleDelete = async (issueId, title) => {
     const { isConfirmed } = await Swal.fire({
       title: 'Delete Issue?',
@@ -104,7 +103,7 @@ const AdminIssuesPage = () => {
     }
   };
 
-  // Get status icon and color
+
   const getStatusInfo = (status) => {
     switch(status.toLowerCase()) {
       case 'pending': return { icon: <Clock className="w-4 h-4" />, color: 'bg-yellow-100 text-yellow-800' };
@@ -114,7 +113,7 @@ const AdminIssuesPage = () => {
     }
   };
 
-  // Loading state
+  
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -125,16 +124,15 @@ const AdminIssuesPage = () => {
 
   return (
     <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
-      {/* Header */}
+  
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Issue Management</h1>
         <p className="text-gray-600 mt-1">Manage and assign reported issues to staff</p>
       </div>
 
-      {/* Filters */}
       <div className="bg-white rounded-xl p-4 shadow-sm border mb-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Search */}
+       
           <div className="md:col-span-2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -148,7 +146,7 @@ const AdminIssuesPage = () => {
             </div>
           </div>
 
-          {/* Status filter */}
+     
           <div>
             <select
               value={filter.status}
@@ -162,7 +160,7 @@ const AdminIssuesPage = () => {
             </select>
           </div>
 
-          {/* Category filter */}
+      
           <div>
             <select
               value={filter.category}
@@ -180,7 +178,7 @@ const AdminIssuesPage = () => {
         </div>
       </div>
 
-      {/* Stats */}
+ 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded-xl border shadow-sm">
           <p className="text-gray-500 text-sm">Total Issues</p>
@@ -200,9 +198,9 @@ const AdminIssuesPage = () => {
         </div>
       </div>
 
-      {/* Issues List */}
+   
       {isMobile ? (
-        // Mobile View
+      
         <div className="space-y-4">
           {filteredIssues.length === 0 ? (
             <div className="bg-white p-8 rounded-xl border text-center text-gray-500">

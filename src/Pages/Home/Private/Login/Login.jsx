@@ -34,7 +34,7 @@ const Login = () => {
     }
   };
 
-  // Redirect after login based on role
+  // Redirect based on role
   useEffect(() => {
     if (user) {
       if (user.role === "staff") {
@@ -99,7 +99,6 @@ const Login = () => {
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
 
-        {/* Google login button */}
         <GoogleLogin />
 
         <p className="text-center text-gray-500 text-sm mt-6">

@@ -25,12 +25,14 @@ import AdminPayments from "../Pages/Dashboard/Admin/AdminPayments/AdminPayments"
 import AdminIssuesPage from "../Pages/Dashboard/Admin/AllIssuesPage/AdminIssuesPage";
 import AdminRoute from "./AdminRoute";
 
-// Staff Components
+
 import StaffOverview from "../Pages/Dashboard/staff/StaffOverview/StaffOverview";
 import StaffAssignedIssues from "../Pages/Dashboard/staff/StaffAssignedIssues/StaffAssignedIssues";
 import StaffProfile from "../Pages/Dashboard/staff/StaffProfile/StaffProfile";
 import StaffRoute from "./StaffRoute";
+import NotFound from "../Pages/NotFound/NotFound"; 
 
+// router.jsx
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -46,14 +48,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      { path: "payment-success", element: <PaymentSuccess /> },
+      { path: "boost-success", element: <BoostSuccess /> },
       {
-        path: "payment-success",
-        element: <PaymentSuccess />,
-      },
-      {
-        path: "boost-success",
-        element: <BoostSuccess />,
-      },
+    path: "*",
+    element: <NotFound />,
+  },
     ],
   },
   {
@@ -72,13 +72,11 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      // User routes
       { index: true, element: <OverviewPage /> },
       { path: "my-issues", element: <MyIssuesPage /> },
       { path: "report-issue", element: <ReportIssuePage /> },
       { path: "profile", element: <ProfilePage /> },
 
-      // Admin routes
       {
         element: <AdminRoute />,
         children: [
@@ -90,7 +88,6 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // Staff routes - নতুন স্টাফ রাউটস যুক্ত করুন
       {
         element: <StaffRoute />,
         children: [
@@ -101,4 +98,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  // Global 404 - সব লেআউটের পরে রাখুন
+  
 ]);

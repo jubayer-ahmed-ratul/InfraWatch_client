@@ -106,7 +106,7 @@ const ProfilePage = () => {
   if (!user) return <p className="text-center mt-10">No user logged in</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
+    <div className="min-h-screen p-4 sm:p-6">
       <div className="max-w-2xl mx-auto">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">

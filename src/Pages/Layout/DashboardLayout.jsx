@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext/AuthContext"; 
-import { 
-  Menu, 
-  X, 
-  ChevronLeft, 
-  ChevronRight, 
-  LogOut, 
+import { AuthContext } from "../../context/AuthContext/AuthContext";
+import {
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
   Home,
   AlertCircle,
   PlusCircle,
@@ -23,40 +23,22 @@ import {
 export default function DashboardLayout({ onLogout }) {
   const { user: currentUser, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  
+
   const sidebarRef = useRef(null);
-  const userMenuRef = useRef(null);
 
   useEffect(() => {
-    const checkIfMobile = () => {
+    const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (!mobile) {
-        setIsSidebarOpen(true);
-      } else {
-        setIsSidebarOpen(false);
-      }
+      setIsSidebarOpen(!mobile);
     };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setShowUserMenu(false);
-      }
-    };
-    
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLogout = () => {
@@ -65,133 +47,34 @@ export default function DashboardLayout({ onLogout }) {
     navigate("/login");
   };
 
-  // Common menu items for all users
-  const baseMenuItems = [
-    { 
-      name: "Dashboard", 
-      path: "/dashboard", 
-      icon: <Home className="w-5 h-5" />
-    },
-  ];
-
-  // User specific menu items
-  const userMenuItems = [
-    { 
-      name: "My Issues", 
-      path: "/dashboard/my-issues", 
-      icon: <FileText className="w-5 h-5" />
-    },
-    { 
-      name: "Report Issue", 
-      path: "/dashboard/report-issue", 
-      icon: <PlusCircle className="w-5 h-5" />
-    },
-    { 
-      name: "Profile", 
-      path: "/dashboard/profile", 
-      icon: <User className="w-5 h-5" />
-    },
-  ];
-
-  // Admin specific menu items
-  const adminMenuItems = [
-    { 
-      name: "Admin Dashboard", 
-      path: "/dashboard/admin", 
-      icon: <Shield className="w-5 h-5" />
-    },
-    { 
-      name: "All Issues", 
-      path: "/dashboard/admin/allissues", 
-      icon: <AlertCircle className="w-5 h-5" />
-    },
-    { 
-      name: "Manage Users", 
-      path: "/dashboard/admin/users", 
-      icon: <Users className="w-5 h-5" />
-    },
-    { 
-      name: "Manage Staff", 
-      path: "/dashboard/admin/staff", 
-      icon: <Briefcase className="w-5 h-5" />
-    },
-    { 
-      name: "Payments", 
-      path: "/dashboard/admin/payments", 
-      icon: <CreditCard className="w-5 h-5" />
-    },
-  ];
-
-  // Staff specific menu items
-  const staffMenuItems = [
-    { 
-      name: "Staff Dashboard", 
-      path: "/dashboard/staff", 
-      icon: <Briefcase className="w-5 h-5" />
-    },
-    { 
-      name: "Assigned Issues", 
-      path: "/dashboard/staff/assigned-issues", 
-      icon: <CheckCircle className="w-5 h-5" />
-    },
-    { 
-      name: "Staff Profile", 
-      path: "/dashboard/staff/profile", 
-      icon: <Settings className="w-5 h-5" />
-    },
-  ];
-
-  // Build menu items based on user role
-  let menuItems = [...baseMenuItems];
-  
-  if (currentUser?.role === "admin") {
-    menuItems = [...menuItems, ...userMenuItems, ...adminMenuItems];
-  } else if (currentUser?.role === "staff") {
-    menuItems = [...menuItems, ...staffMenuItems];
-  } else {
-    // Regular user
-    menuItems = [...menuItems, ...userMenuItems];
-  }
-
-  const toggleSidebar = () => {
-    if (isMobile) {
-      setIsSidebarOpen(!isSidebarOpen);
-    } else {
-      setIsSidebarCollapsed(!isSidebarCollapsed);
-    }
+  const menuByRole = {
+    admin: [
+      { name: "Admin Dashboard", path: "/dashboard/admin", icon: <Shield /> },
+      { name: "All Issues", path: "/dashboard/admin/allissues", icon: <AlertCircle /> },
+      { name: "Manage Users", path: "/dashboard/admin/users", icon: <Users /> },
+      { name: "Manage Staff", path: "/dashboard/admin/staff", icon: <Briefcase /> },
+      { name: "Payments", path: "/dashboard/admin/payments", icon: <CreditCard /> },
+    ],
+    staff: [
+      { name: "Staff Dashboard", path: "/dashboard/staff", icon: <Briefcase /> },
+      { name: "Assigned Issues", path: "/dashboard/staff/assigned-issues", icon: <CheckCircle /> },
+      { name: "Profile", path: "/dashboard/staff/profile", icon: <Settings /> },
+    ],
+    user: [
+      { name: "Dashboard", path: "/dashboard", icon: <Home /> },
+      { name: "My Issues", path: "/dashboard/my-issues", icon: <FileText /> },
+      { name: "Report Issue", path: "/dashboard/report-issue", icon: <PlusCircle /> },
+      { name: "Profile", path: "/dashboard/profile", icon: <User /> },
+    ],
   };
 
-  const handleNavLinkClick = () => {
-    if (isMobile) {
-      setIsSidebarOpen(false);
-    }
-  };
-
-  const getUserInitials = () => {
-    if (!currentUser?.displayName) return "U";
-    return currentUser.displayName
-      .split(" ")
-      .map(n => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  // Get role display text
-  const getRoleDisplay = () => {
-    switch(currentUser?.role) {
-      case 'admin': return 'Administrator';
-      case 'staff': return 'Staff Member';
-      case 'user': return 'User';
-      default: return 'User';
-    }
-  };
+  const menuItems = menuByRole[currentUser?.role || "user"];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50">
       {isMobile && isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="fixed inset-0 bg-black/50 z-30"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -200,120 +83,86 @@ export default function DashboardLayout({ onLogout }) {
         ref={sidebarRef}
         className={`
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          ${isMobile ? "fixed inset-y-0 left-0 z-40" : "relative"}
+          ${isMobile ? "fixed z-40" : "relative"}
           ${isSidebarCollapsed && !isMobile ? "w-20" : "w-64"}
-          bg-white shadow-lg p-4 md:p-6 flex flex-col
-          transition-all duration-300 ease-in-out
-          ${!isMobile && !isSidebarCollapsed ? "translate-x-0" : ""}
+          h-screen bg-white shadow-lg p-4 flex flex-col
+          transition-all duration-300
         `}
       >
         {isMobile && (
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="absolute top-4 right-4 p-1 rounded-lg hover:bg-gray-100"
+            className="absolute top-4 right-4"
           >
-            <X className="w-5 h-5" />
+            <X />
           </button>
         )}
 
-        <div className={`mb-6 ${isSidebarCollapsed && !isMobile ? "px-0 text-center" : "text-center"}`}>
-          <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-2">
-            {currentUser?.photoURL ? (
-              <img
-                src={currentUser.photoURL}
-                alt={currentUser?.displayName || "No Name"}
-                className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-green-500 object-cover"
-              />
-            ) : (
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-green-500 bg-green-100 flex items-center justify-center text-green-700 font-bold text-xl">
-                {getUserInitials()}
-              </div>
-            )}
-            {currentUser?.isPremium && (
-              <span className="absolute bottom-0 right-0 bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full">
-                P
-              </span>
-            )}
+        {/* Profile */}
+        <div className="text-center mb-4">
+          <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center text-xl font-bold">
+            {currentUser?.displayName?.[0] || "U"}
           </div>
-
-          {(!isSidebarCollapsed || isMobile) && (
+          {!isSidebarCollapsed && (
             <>
-              <h2 className="font-bold text-sm md:text-lg truncate">
-                {currentUser?.displayName || "No Name"}
-              </h2>
-              <p className="text-xs md:text-sm text-gray-500">
-                {getRoleDisplay()}
-              </p>
-
-              {currentUser?.isBlocked && (
-                <p className="mt-2 text-red-600 text-xs font-medium">
-                  Account Blocked
-                </p>
-              )}
+              <h3 className="font-semibold mt-2">{currentUser?.displayName}</h3>
+              <p className="text-xs text-gray-500">{currentUser?.role}</p>
             </>
           )}
         </div>
 
-        <nav className="flex-1 space-y-1 md:space-y-2">
-          {menuItems.map((item) => (
+        {/* Back Home */}
+        <NavLink
+          to="/"
+          className={`flex items-center gap-2 px-3 py-2 mb-3 rounded-lg bg-gray-100 hover:bg-green-100
+            ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
+          `}
+        >
+          <Home className="w-5 h-5" />
+          {!isSidebarCollapsed && <span>Back to Home</span>}
+        </NavLink>
+
+        {/* Menu */}
+        <nav className="flex-1 overflow-y-auto space-y-1 pr-1">
+          {menuItems.map(item => (
             <NavLink
               key={item.path}
               to={item.path}
-              onClick={handleNavLinkClick}
-              className={({ isActive }) => `
-                flex items-center px-3 py-2 md:px-4 md:py-2 rounded-lg font-medium hover:bg-green-100
-                ${isActive ? "bg-green-200 text-green-700" : "text-gray-700"}
-                ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
-              `}
-              title={isSidebarCollapsed && !isMobile ? item.name : ""}
+              onClick={() => isMobile && setIsSidebarOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-lg font-medium
+                ${isActive ? "bg-green-200 text-green-800" : "hover:bg-green-100"}
+                ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}`
+              }
             >
-              <span className={`${isSidebarCollapsed && !isMobile ? "" : "mr-2 md:mr-3"}`}>
-                {item.icon}
-              </span>
-              {(!isSidebarCollapsed || isMobile) && (
-                <span className="truncate">{item.name}</span>
-              )}
+              {item.icon}
+              {!isSidebarCollapsed && <span>{item.name}</span>}
             </NavLink>
           ))}
         </nav>
 
+        {/* Logout */}
         <button
           onClick={handleLogout}
-          className={`
-            mt-auto px-3 py-2 md:px-4 md:py-2 bg-red-500 text-white rounded-lg 
-            hover:bg-red-600 transition flex items-center justify-center
-            ${isSidebarCollapsed && !isMobile ? "px-2" : ""}
+          className={`mt-auto flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg
+            ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
           `}
-          title={isSidebarCollapsed && !isMobile ? "Logout" : ""}
         >
-          {(!isSidebarCollapsed || isMobile) && (
-            <>
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </>
-          )}
-          {isSidebarCollapsed && !isMobile && (
-            <LogOut className="w-5 h-5" />
-          )}
+          <LogOut className="w-5 h-5" />
+          {!isSidebarCollapsed && <span>Logout</span>}
         </button>
       </aside>
 
-      <main className="flex-1 p-4 md:p-6">
-        <div className="flex items-center justify-between mb-4 md:mb-6 pb-4 border-b">
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            title={isMobile ? "Toggle Menu" : isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isMobile ? (
-              <Menu className="w-6 h-6" />
-            ) : isSidebarCollapsed ? (
-              <ChevronRight className="w-6 h-6" />
-            ) : (
-              <ChevronLeft className="w-6 h-6" />
-            )}
-          </button>
-        </div>
+      {/* Content */}
+      <main className="flex-1 p-4 overflow-y-auto">
+        <button
+          onClick={() =>
+            isMobile ? setIsSidebarOpen(!isSidebarOpen) : setIsSidebarCollapsed(!isSidebarCollapsed)
+          }
+          className="mb-4 p-2 rounded-lg hover:bg-gray-100"
+        >
+          {isMobile ? <Menu /> : isSidebarCollapsed ? <ChevronRight /> : <ChevronLeft />}
+        </button>
 
         <Outlet />
       </main>

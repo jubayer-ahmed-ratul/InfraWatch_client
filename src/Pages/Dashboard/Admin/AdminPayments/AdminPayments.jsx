@@ -157,7 +157,7 @@ const AdminPayments = () => {
         </div>
       </div>
 
-      {/* Payments Table */}
+   
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">

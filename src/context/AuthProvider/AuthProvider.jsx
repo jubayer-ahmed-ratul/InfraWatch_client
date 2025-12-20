@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
 
  const syncUserWithDatabase = async (firebaseUser) => {
   try {
-    // Send the user info to backend to create/update user
+
     const response = await axiosSecure.post('/users', {
       email: firebaseUser.email,
       name: firebaseUser.displayName || firebaseUser.email,
@@ -32,14 +32,14 @@ const AuthProvider = ({ children }) => {
 
     const dbUser = response.data;
 
-    // Return a fully synced user object
+    
     return {
       uid: firebaseUser.uid,
       displayName: firebaseUser.displayName || firebaseUser.email,
       email: firebaseUser.email,
       photoURL: firebaseUser.photoURL || null,
       dbId: dbUser._id,
-      role: dbUser.role || 'user',       // <-- include role
+      role: dbUser.role || 'user',       
       isPremium: dbUser.premium || false,
       premium: dbUser.premium || false,
       isBlocked: dbUser.blocked || false,
@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
     };
   } catch (error) {
     console.error("Error syncing user with database:", error);
-    // Fallback for failed sync
+   
     return {
       uid: firebaseUser.uid,
       displayName: firebaseUser.displayName || firebaseUser.email,

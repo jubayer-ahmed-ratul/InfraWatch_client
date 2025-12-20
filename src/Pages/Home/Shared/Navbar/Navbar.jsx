@@ -84,8 +84,8 @@ const Navbar = () => {
                   </div>
                 </li>
                 <li><a href="/dashboard" className="justify-between">Dashboard <span className="badge badge-success">New</span></a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/settings">Settings</a></li>
+                <li><a href="/dashboard/profile">Profile</a></li>
+              
                 <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
               </ul>
             </div>

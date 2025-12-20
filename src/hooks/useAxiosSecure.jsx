@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuth } from "firebase/auth";
 
 const AxiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://infrawatch-server.vercel.app/",
 });
 
 const useAxiosSecure = () => {

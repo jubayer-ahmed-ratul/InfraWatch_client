@@ -212,10 +212,7 @@ const AdminPayments = () => {
       </div>
 
 
-      <div className="mt-6 text-sm text-gray-500">
-        <p>Note: This report shows payments from {filterDate.toLocaleDateString()} onwards.</p>
-        <p>Click "Receipt" button to download individual payment receipt as PDF.</p>
-      </div>
+      
     </div>
   );
 };

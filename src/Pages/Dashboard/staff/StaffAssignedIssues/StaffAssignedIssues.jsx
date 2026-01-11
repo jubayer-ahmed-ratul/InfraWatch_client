@@ -203,11 +203,11 @@ const StaffAssignedIssues = () => {
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-base-200 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Assigned Issues</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-base-content mb-2">Assigned Issues</h1>
+          <p className="text-base-content/70">
             Manage and update the status of issues assigned to you
           </p>
         </div>
@@ -216,40 +216,40 @@ const StaffAssignedIssues = () => {
 
       
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-base-100 rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-base-300">
+              <thead className="bg-base-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
                     Issue Details
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
                     Priority
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-base-100 divide-y divide-base-300">
                 {filteredIssues.length > 0 ? (
                   filteredIssues.map((issue) => (
                     <tr
                       key={issue._id}
-                      className={`hover:bg-gray-50 ${issue.boosted ? 'bg-yellow-50 hover:bg-yellow-100' : ''}`}
+                      className={`hover:bg-base-200 ${issue.boosted ? 'bg-yellow-50 hover:bg-yellow-100' : ''}`}
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <h3 className="text-sm font-medium text-gray-900">
+                              <h3 className="text-sm font-medium text-base-content">
                                 {issue.title}
                               </h3>
                               {issue.boosted && (
@@ -258,7 +258,7 @@ const StaffAssignedIssues = () => {
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                            <p className="text-sm text-base-content/60 mt-1 line-clamp-2">
                               {issue.description}
                             </p>
                             <div className="mt-2">
@@ -273,7 +273,7 @@ const StaffAssignedIssues = () => {
                         <div className="flex flex-col gap-1">
                           <StatusBadge status={issue.status} />
                           {issue.assignedStaff && (
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-base-content/60">
                               Assigned to: {issue.assignedStaff.name}
                             </span>
                           )}
@@ -290,13 +290,13 @@ const StaffAssignedIssues = () => {
                           {issue.priority}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-base-content/60">
                         {formatDate(issue.createdAt)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2">
                           <select
-                            className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="border border-base-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-base-100"
                             onChange={(e) => handleStatusChange(issue._id, e.target.value)}
                             value=""
                             disabled={!getNextAvailableStatuses(issue.status).length}
@@ -331,7 +331,7 @@ const StaffAssignedIssues = () => {
                                 confirmButtonText: 'Close'
                               });
                             }}
-                            className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+                            className="px-3 py-1 text-sm bg-base-200 text-base-content rounded-md hover:bg-base-300 transition-colors"
                           >
                             View
                           </button>
@@ -342,9 +342,9 @@ const StaffAssignedIssues = () => {
                 ) : (
                   <tr>
                     <td colSpan={5} className="px-6 py-12 text-center">
-                      <div className="text-gray-500">
+                      <div className="text-base-content/60">
                         <svg
-                          className="mx-auto h-12 w-12 text-gray-400"
+                          className="mx-auto h-12 w-12 text-base-content/40"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"

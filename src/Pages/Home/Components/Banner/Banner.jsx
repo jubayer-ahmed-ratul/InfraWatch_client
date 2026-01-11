@@ -106,12 +106,12 @@ const Banner = ({ imageUrl }) => {
                   <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-emerald-400/10 rounded-full blur-xl" />
                 </div>
 
-                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-xl">
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-base-100/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-xl">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="font-semibold text-gray-800">Live Updates</span>
-                    <span className="text-gray-600">•</span>
-                    <span className="text-sm text-gray-600">Real-time tracking</span>
+                    <span className="font-semibold text-base-content">Live Updates</span>
+                    <span className="text-base-content/60">•</span>
+                    <span className="text-sm text-base-content/60">Real-time tracking</span>
                   </div>
                 </div>
               </div>

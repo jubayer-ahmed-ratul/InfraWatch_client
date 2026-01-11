@@ -43,16 +43,16 @@ export default function LatestResolvedIssues() {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-base-200">
       <div className="max-w-7xl mx-auto px-4">
         {/* HEADER */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-base-content mb-4">
             Recently{" "}
             <span className="text-green-600">Resolved</span>{" "}
             Issues
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-base-content/70 max-w-2xl mx-auto text-lg">
             See how community reports lead to real changes in our
             city infrastructure
           </p>
@@ -68,7 +68,7 @@ export default function LatestResolvedIssues() {
             return (
               <div
                 key={issue._id}
-                className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition"
+                className="bg-base-100 shadow-md rounded-xl overflow-hidden border border-base-300 hover:shadow-xl transition"
               >
                 {/* IMAGE */}
                 <img
@@ -83,7 +83,7 @@ export default function LatestResolvedIssues() {
                     {issue.title}
                   </h3>
 
-                  <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+                  <p className="text-sm text-base-content/60 mb-3 line-clamp-2">
                     {issue.description}
                   </p>
 
@@ -105,11 +105,11 @@ export default function LatestResolvedIssues() {
                   </div>
 
                   {/* META */}
-                  <p className="text-sm text-gray-400 mb-1">
+                  <p className="text-sm text-base-content/50 mb-1">
                     Location: {issue.location}
                   </p>
 
-                  <p className="text-sm text-gray-400 mb-4">
+                  <p className="text-sm text-base-content/50 mb-4">
                     Upvotes: {issue.upvotes}
                   </p>
 

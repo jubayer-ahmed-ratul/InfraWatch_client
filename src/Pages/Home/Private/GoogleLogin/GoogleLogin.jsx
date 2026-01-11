@@ -50,7 +50,7 @@ const GoogleLogin = () => {
     <button
       type="button"
       onClick={handleGoogleLogin}
-      className="btn bg-white text-black border-[#e5e5e5] flex items-center gap-2 w-full hover:bg-gray-100 transition"
+      className="btn bg-base-100 text-base-content border-base-300 flex items-center gap-2 w-full hover:bg-base-200 transition"
     >
    
       <svg

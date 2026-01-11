@@ -12,16 +12,16 @@ const NotFound = () => {
         className="max-w-sm w-full mb-6"
       />
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
+      <h1 className="text-3xl font-bold text-base-content mb-2">
         Page Not Found
       </h1>
-      <p className="text-gray-600 mb-6 text-center">
+      <p className="text-base-content/70 mb-6 text-center">
         Oops! The page you are looking for doesn’t exist.
       </p>
 
       <button
         onClick={() => navigate("/")}
-        className="px-6 py-3 rounded-2xl bg-black text-white hover:bg-gray-800 transition"
+        className="px-6 py-3 rounded-2xl bg-primary text-primary-content hover:bg-primary-focus transition"
       >
         Go to Home
       </button>

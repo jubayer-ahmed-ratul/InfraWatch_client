@@ -29,12 +29,12 @@ const stepsData = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-base-100">
       <div className="max-w-11/12 mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-base-content mb-4">
           How <span className="text-green-600">It Works</span>
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto text-lg mb-12">
+        <p className="text-base-content/70 max-w-2xl mx-auto text-lg mb-12">
           Follow these simple steps to report city issues and track their
           resolution easily.
         </p>
@@ -51,7 +51,7 @@ export default function HowItWorks() {
 
               <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
 
-              <p className="text-gray-500 text-sm max-w-xs">
+              <p className="text-base-content/60 text-sm max-w-xs">
                 {step.description}
               </p>
             </div>

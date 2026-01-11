@@ -123,25 +123,25 @@ const AdminIssuesPage = () => {
   }
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-6 bg-base-200 min-h-screen">
   
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Issue Management</h1>
-        <p className="text-gray-600 mt-1">Manage and assign reported issues to staff</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-base-content">Issue Management</h1>
+        <p className="text-base-content/70 mt-1">Manage and assign reported issues to staff</p>
       </div>
 
-      <div className="bg-white rounded-xl p-4 shadow-sm border mb-6">
+      <div className="bg-base-100 rounded-xl p-4 shadow-sm border border-base-300 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
        
           <div className="md:col-span-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/50 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search issues..."
                 value={filter.search}
                 onChange={e => setFilter({ ...filter, search: e.target.value })}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-base-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-base-100"
               />
             </div>
           </div>
@@ -151,7 +151,7 @@ const AdminIssuesPage = () => {
             <select
               value={filter.status}
               onChange={e => setFilter({ ...filter, status: e.target.value })}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-base-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-base-100"
             >
               <option value="">All Status</option>
               <option value="Pending">Pending</option>
@@ -165,7 +165,7 @@ const AdminIssuesPage = () => {
             <select
               value={filter.category}
               onChange={e => setFilter({ ...filter, category: e.target.value })}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-base-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-base-100"
             >
               <option value="">All Categories</option>
               <option value="Road">Road</option>
@@ -180,18 +180,18 @@ const AdminIssuesPage = () => {
 
  
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-xl border shadow-sm">
-          <p className="text-gray-500 text-sm">Total Issues</p>
-          <p className="text-2xl font-bold text-gray-900">{issues.length}</p>
+        <div className="bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm">
+          <p className="text-base-content/60 text-sm">Total Issues</p>
+          <p className="text-2xl font-bold text-base-content">{issues.length}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border shadow-sm">
-          <p className="text-gray-500 text-sm">Assigned Issues</p>
+        <div className="bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm">
+          <p className="text-base-content/60 text-sm">Assigned Issues</p>
           <p className="text-2xl font-bold text-green-600">
             {issues.filter(i => i.assignedStaff).length}
           </p>
         </div>
-        <div className="bg-white p-4 rounded-xl border shadow-sm">
-          <p className="text-gray-500 text-sm">Unassigned Issues</p>
+        <div className="bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm">
+          <p className="text-base-content/60 text-sm">Unassigned Issues</p>
           <p className="text-2xl font-bold text-yellow-600">
             {issues.filter(i => !i.assignedStaff).length}
           </p>
@@ -203,22 +203,22 @@ const AdminIssuesPage = () => {
       
         <div className="space-y-4">
           {filteredIssues.length === 0 ? (
-            <div className="bg-white p-8 rounded-xl border text-center text-gray-500">
+            <div className="bg-base-100 p-8 rounded-xl border border-base-300 text-center text-base-content/60">
               No issues found
             </div>
           ) : filteredIssues.map(issue => {
             const statusInfo = getStatusInfo(issue.status);
             return (
-              <div key={issue._id} className="bg-white rounded-xl border p-4 shadow-sm">
+              <div key={issue._id} className="bg-base-100 rounded-xl border border-base-300 p-4 shadow-sm">
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">{issue.title}</h3>
+                    <h3 className="font-medium text-base-content">{issue.title}</h3>
                     <div className="flex items-center mt-2 space-x-2">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center ${statusInfo.color}`}>
                         {statusInfo.icon}
                         <span className="ml-1">{issue.status}</span>
                       </span>
-                      <span className="text-sm text-gray-600">{issue.category}</span>
+                      <span className="text-sm text-base-content/70">{issue.category}</span>
                     </div>
                   </div>
                 </div>
@@ -233,8 +233,8 @@ const AdminIssuesPage = () => {
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">Assigned to</p>
-                          <p className="text-xs text-gray-600">{issue.assignedStaff.name}</p>
+                          <p className="text-sm font-medium text-base-content">Assigned to</p>
+                          <p className="text-xs text-base-content/70">{issue.assignedStaff.name}</p>
                         </div>
                       </div>
                       <span className="text-green-600 text-sm font-medium">Assigned</span>
@@ -259,7 +259,7 @@ const AdminIssuesPage = () => {
                     </button>
                     <a
                       href={`/issues/${issue._id}`}
-                      className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
+                      className="px-4 py-2 bg-base-200 hover:bg-base-300 text-base-content rounded-lg"
                     >
                       View Details
                     </a>
@@ -271,33 +271,33 @@ const AdminIssuesPage = () => {
         </div>
       ) : (
         // Desktop View
-        <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+        <div className="bg-base-100 rounded-xl border border-base-300 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-base-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Issue</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assigned To</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase">Issue</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase">Category</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase">Assigned To</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-base-content/70 uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-base-300">
                 {filteredIssues.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={5} className="px-6 py-8 text-center text-base-content/60">
                       No issues found matching your filters
                     </td>
                   </tr>
                 ) : filteredIssues.map(issue => {
                   const statusInfo = getStatusInfo(issue.status);
                   return (
-                    <tr key={issue._id} className="hover:bg-gray-50">
+                    <tr key={issue._id} className="hover:bg-base-200">
                       <td className="px-6 py-4">
                         <div>
-                          <p className="font-medium text-gray-900">{issue.title}</p>
-                          <p className="text-sm text-gray-500 truncate max-w-md">
+                          <p className="font-medium text-base-content">{issue.title}</p>
+                          <p className="text-sm text-base-content/60 truncate max-w-md">
                             {issue.description?.substring(0, 80) || 'No description'}...
                           </p>
                         </div>

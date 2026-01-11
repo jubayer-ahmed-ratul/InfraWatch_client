@@ -106,21 +106,21 @@ const ProfilePage = () => {
   if (!user) return <p className="text-center mt-10">No user logged in</p>;
 
   return (
-    <div className="min-h-screen p-4 sm:p-6">
+    <div className="min-h-screen p-4 sm:p-6 bg-base-200">
       <div className="max-w-2xl mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-base-content">
             Profile{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600">
               Settings
             </span>
           </h1>
-          <p className="text-gray-600 mt-1 text-sm sm:text-base">
+          <p className="text-base-content/70 mt-1 text-sm sm:text-base">
             Manage your account information
           </p>
         </div>
 
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-base-100 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
           <div className="p-4 sm:p-6 md:p-8">
    
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
@@ -141,7 +141,7 @@ const ProfilePage = () => {
                 <h2 className="text-xl sm:text-2xl font-bold">
                   {user.displayName || "No Name"}
                 </h2>
-                <p className="text-gray-600 text-sm sm:text-base">{user.email}</p>
+                <p className="text-base-content/70 text-sm sm:text-base">{user.email}</p>
                 {user.isBlocked ? (
                   <span className="inline-block mt-2 px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
                     Blocked
@@ -177,20 +177,20 @@ const ProfilePage = () => {
          
             <form onSubmit={handleUpdateProfile} className="space-y-4 sm:space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-base-content mb-1">
                   Full Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-base-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-base-100"
                   placeholder="Enter your name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-base-content mb-1">
                   Profile Picture
                 </label>
                 <div className="flex flex-col sm:flex-row gap-3">

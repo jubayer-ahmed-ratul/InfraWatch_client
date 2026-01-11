@@ -18,7 +18,7 @@ const images = [
 
 export default function Features() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-base-200">
       <div className="max-w-11/12 mx-auto  flex flex-col lg:flex-row gap-12">
         <div className="lg:w-1/2 grid grid-cols-2 gap-4">
           {images.map((img, index) => (
@@ -33,10 +33,10 @@ export default function Features() {
         </div>
 
         <div className="lg:w-1/2 flex flex-col justify-center gap-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-base-content mb-6">
             Key <span className="text-green-600">Features</span>
           </h2>
-          <p className="text-gray-600 text-lg mb-6">
+          <p className="text-base-content/70 text-lg mb-6">
             Explore the main functionalities that make reporting and tracking city issues simple and effective.
           </p>
 
@@ -44,7 +44,7 @@ export default function Features() {
             {featuresData.map((feature) => (
               <div
                 key={feature.id}
-                className="bg-white shadow-md rounded-xl border border-gray-100 p-4 flex items-center justify-center font-semibold text-gray-800 hover:shadow-xl transition"
+                className="bg-base-100 shadow-md rounded-xl border border-base-300 p-4 flex items-center justify-center font-semibold text-base-content hover:shadow-xl transition"
               >
                 {feature.title}
               </div>

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../../../context/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ThemeToggle from "../../../../components/ThemeToggle/ThemeToggle";
 
 const Navbar = () => {
   const { user, loading, logOut } = useContext(AuthContext);
@@ -62,6 +63,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end gap-4">
+          <ThemeToggle />
           {user ? (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar flex items-center justify-center cursor-pointer">
@@ -80,7 +82,7 @@ const Navbar = () => {
                 <li className="p-4 border-b">
                   <div className="flex flex-col">
                     <span className="font-bold">{user.displayName || user.email}</span>
-                    <span className="text-sm text-gray-500">{user.email}</span>
+                    <span className="text-sm text-base-content/60">{user.email}</span>
                   </div>
                 </li>
                 <li><a href="/dashboard" className="justify-between">Dashboard <span className="badge badge-success">New</span></a></li>

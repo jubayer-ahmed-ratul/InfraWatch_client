@@ -90,8 +90,8 @@ const StaffOverview = () => {
   ];
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Staff Dashboard</h1>
+    <div className="p-6 bg-base-200 min-h-screen">
+      <h1 className="text-2xl font-bold mb-4 text-base-content">Staff Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <StatCard title="Assigned Issues" value={stats.assigned} />
@@ -100,8 +100,8 @@ const StaffOverview = () => {
         <StatCard title="Today's Tasks" value={stats.today} />
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow">
-        <h3 className="font-semibold mb-2">Issue Distribution</h3>
+      <div className="bg-base-100 p-4 rounded-lg shadow border border-base-300">
+        <h3 className="font-semibold mb-2 text-base-content">Issue Distribution</h3>
         <ResponsiveContainer width="100%" height={260}>
           <PieChart>
             <Pie
@@ -130,9 +130,9 @@ const StaffOverview = () => {
 };
 
 const StatCard = ({ title, value }) => (
-  <div className="bg-white p-4 rounded-lg shadow">
-    <h3 className="font-semibold">{title}</h3>
-    <p className="text-3xl font-bold mt-2">{value}</p>
+  <div className="bg-base-100 p-4 rounded-lg shadow border border-base-300">
+    <h3 className="font-semibold text-base-content">{title}</h3>
+    <p className="text-3xl font-bold mt-2 text-base-content">{value}</p>
   </div>
 );
 

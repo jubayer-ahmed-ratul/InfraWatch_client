@@ -87,37 +87,37 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+    <div className="flex items-center justify-center min-h-screen bg-base-200">
+      <div className="w-full max-w-md bg-base-100 rounded-2xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-base-content mb-6 text-center">
           Create Your <span className="text-green-600">Account</span>
         </h2>
 
         <form onSubmit={handleSubmit(handleRegistration)} className="space-y-5">
            <div className="flex flex-col">
-            <label className="mb-2 font-medium text-gray-700">Name</label>
+            <label className="mb-2 font-medium text-base-content">Name</label>
             <input
               type="text"
               placeholder="Your full name"
               {...register("name", { required: "Name is required" })}
-              className="input w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-green-400"
+              className="input w-full px-4 py-3 rounded-xl border border-base-300 focus:ring-2 focus:ring-green-400 bg-base-100"
             />
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
 
            <div className="flex flex-col">
-            <label className="mb-2 font-medium text-gray-700">Email</label>
+            <label className="mb-2 font-medium text-base-content">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
               {...register("email", { required: "Email is required" })}
-              className="input w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-green-400"
+              className="input w-full px-4 py-3 rounded-xl border border-base-300 focus:ring-2 focus:ring-green-400 bg-base-100"
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
            <div className="flex flex-col">
-            <label className="mb-2 font-medium text-gray-700">Password</label>
+            <label className="mb-2 font-medium text-base-content">Password</label>
             <input
               type="password"
               placeholder="Enter your password"
@@ -125,13 +125,13 @@ const Register = () => {
                 required: "Password is required", 
                 minLength: { value: 6, message: "Password must be at least 6 characters" } 
               })}
-              className="input w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-green-400"
+              className="input w-full px-4 py-3 rounded-xl border border-base-300 focus:ring-2 focus:ring-green-400 bg-base-100"
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
 
            <div className="flex flex-col">
-            <label className="mb-2 font-medium text-gray-700">Upload Photo</label>
+            <label className="mb-2 font-medium text-base-content">Upload Photo</label>
             <input
               type="file"
               accept="image/*"
@@ -149,14 +149,14 @@ const Register = () => {
         </form>
 
         <div className="flex items-center my-6">
-          <div className="flex-1 h-px bg-gray-300"></div>
-          <span className="mx-3 text-gray-500 text-sm">OR</span>
-          <div className="flex-1 h-px bg-gray-300"></div>
+          <div className="flex-1 h-px bg-base-300"></div>
+          <span className="mx-3 text-base-content/60 text-sm">OR</span>
+          <div className="flex-1 h-px bg-base-300"></div>
         </div>
 
         <GoogleLogin />
 
-        <p className="text-center text-gray-500 text-sm mt-6">
+        <p className="text-center text-base-content/60 text-sm mt-6">
           Already have an account?{" "}
           <a href="/login" className="text-green-600 font-medium hover:underline">Login</a>
         </p>

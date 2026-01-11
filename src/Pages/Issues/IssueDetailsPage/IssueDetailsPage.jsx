@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loader from "../../Home/Components/Loader/Loader";
+import PublicPageWrapper from "../../../components/PublicPageWrapper/PublicPageWrapper";
 
 export default function IssueDetailsPage({ currentUser }) {
   const { issueId } = useParams();
@@ -84,8 +85,9 @@ export default function IssueDetailsPage({ currentUser }) {
   };
 
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden p-6 md:p-10">
+    <PublicPageWrapper>
+      <section className="py-16 bg-base-200 min-h-screen">
+        <div className="max-w-6xl mx-auto bg-base-100 shadow-lg rounded-xl overflow-hidden p-6 md:p-10">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Left Column */}
           <div className="md:w-2/3 space-y-6">
@@ -97,18 +99,18 @@ export default function IssueDetailsPage({ currentUser }) {
                 className="w-full h-80 object-cover rounded-lg shadow-sm"
               />
             ) : (
-              <div className="w-full h-80 bg-gray-200 flex items-center justify-center rounded-lg">
-                <span className="text-gray-400">No Image</span>
+              <div className="w-full h-80 bg-base-200 flex items-center justify-center rounded-lg">
+                <span className="text-base-content/50">No Image</span>
               </div>
             )}
 
             {/* Issue Info */}
             <h2 className="text-3xl font-bold">{issue.title}</h2>
-            <p className="text-gray-700">{issue.description}</p>
+            <p className="text-base-content/70">{issue.description}</p>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-3">
-              <span className="px-3 py-1 bg-gray-200 text-sm font-semibold rounded-full">{issue.category}</span>
+              <span className="px-3 py-1 bg-base-200 text-sm font-semibold rounded-full">{issue.category}</span>
               <span className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(issue.status)}`}>
                 {issue.status}
               </span>
@@ -117,8 +119,8 @@ export default function IssueDetailsPage({ currentUser }) {
               </span>
             </div>
 
-            <p className="text-gray-500">Location: {issue.location}</p>
-            <p className="text-gray-500">Upvotes: {issue.upvotes}</p>
+            <p className="text-base-content/60">Location: {issue.location}</p>
+            <p className="text-base-content/60">Upvotes: {issue.upvotes}</p>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3 mt-4">
@@ -164,25 +166,25 @@ export default function IssueDetailsPage({ currentUser }) {
           <div className="md:w-1/3 space-y-6">
        
             {issue.assignedStaff && (
-              <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <div className="p-4 bg-base-200 rounded-lg shadow-sm">
                 <h3 className="font-semibold mb-2 text-lg">Assigned Staff</h3>
-                <p className="text-gray-700">{issue.assignedStaff.name}</p>
-                <p className="text-gray-500">{issue.assignedStaff.contact}</p>
+                <p className="text-base-content/70">{issue.assignedStaff.name}</p>
+                <p className="text-base-content/60">{issue.assignedStaff.contact}</p>
               </div>
             )}
 
        
-            <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+            <div className="p-4 bg-base-200 rounded-lg shadow-sm">
               <h3 className="font-semibold mb-4 text-lg">Issue Timeline</h3>
               <div className="space-y-6 relative">
                 {(issue.timeline || []).slice(0).reverse().map((entry, idx) => (
                   <div key={idx} className="relative pl-6">
                     <span className="absolute left-0 top-2 w-3 h-3 bg-blue-500 rounded-full"></span>
                     <span className="absolute left-1 top-0 h-full w-0.5 bg-blue-300"></span>
-                    <p className="text-sm text-gray-500">{entry.date}</p>
+                    <p className="text-sm text-base-content/60">{entry.date}</p>
                     <p className="font-semibold">{entry.status}</p>
-                    <p className="text-gray-600">{entry.message}</p>
-                    <p className="text-gray-400 text-xs">By: {entry.updatedBy}</p>
+                    <p className="text-base-content/70">{entry.message}</p>
+                    <p className="text-base-content/50 text-xs">By: {entry.updatedBy}</p>
                   </div>
                 ))}
               </div>
@@ -191,5 +193,6 @@ export default function IssueDetailsPage({ currentUser }) {
         </div>
       </div>
     </section>
+    </PublicPageWrapper>
   );
 }

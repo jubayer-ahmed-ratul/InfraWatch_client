@@ -108,7 +108,7 @@ const MyIssuesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+    <div className="min-h-screen bg-base-200 p-4 sm:p-6">
   
       <h1 className="text-3xl font-bold mb-6">
         My <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600">Issues</span>
@@ -124,14 +124,14 @@ const MyIssuesPage = () => {
 
       {/* Search */}
       <div className="relative mb-4">
-        <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+        <Search className="absolute left-3 top-3 text-base-content/50 w-5 h-5" />
         <input
           placeholder="Search issues..."
           value={filter.search}
           onChange={(e) =>
             setFilter((prev) => ({ ...prev, search: e.target.value }))
           }
-          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+          className="w-full pl-10 pr-4 py-2 border border-base-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-base-100"
         />
       </div>
 
@@ -140,12 +140,12 @@ const MyIssuesPage = () => {
         {filteredIssues.map((issue) => (
           <div
             key={issue._id}
-            className="bg-white p-4 rounded-xl border shadow-sm"
+            className="bg-base-100 p-4 rounded-xl border border-base-300 shadow-sm"
           >
             <div className="flex justify-between">
               <div>
                 <h3 className="font-semibold">{issue.title}</h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-base-content/60 mt-1">
                   {issue.category} • {issue.status}
                 </p>
               </div>
@@ -180,7 +180,7 @@ const MyIssuesPage = () => {
               </div>
             </div>
 
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-base-content/60 mt-2">
               {issue.description?.slice(0, 100)}...
             </p>
           </div>
@@ -190,7 +190,7 @@ const MyIssuesPage = () => {
      
       {editModal.open && (
         <div className="fixed top-20 right-4 z-50 w-full max-w-md">
-          <div className="bg-white border rounded-xl shadow-2xl p-5">
+          <div className="bg-base-100 border border-base-300 rounded-xl shadow-2xl p-5">
             <div className="flex justify-between mb-3">
               <h2 className="font-bold">Edit Issue</h2>
               <button

@@ -70,8 +70,8 @@ useEffect(() => {
   const CustomBarTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 rounded-lg shadow border border-gray-200">
-          <p className="font-semibold text-gray-800">{label}</p>
+        <div className="bg-base-100 p-3 rounded-lg shadow border border-base-300">
+          <p className="font-semibold text-base-content">{label}</p>
           <p className="text-blue-600">Issues: {payload[0].value}</p>
           <p className="text-green-600">Resolved: {payload[1]?.value}</p>
         </div>
@@ -81,12 +81,12 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen p-6 bg-base-200">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-base-content mb-2">
           Admin Dashboard <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600">Overview</span>
         </h1>
-        <p className="text-gray-600">Summary of all issues and payments</p>
+        <p className="text-base-content/70">Summary of all issues and payments</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
@@ -103,8 +103,8 @@ useEffect(() => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Monthly Issues Overview</h2>
+        <div className="bg-base-100 p-6 rounded-2xl shadow border border-base-300">
+          <h2 className="text-xl font-bold text-base-content mb-4">Monthly Issues Overview</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyData} barSize={30}>
@@ -120,8 +120,8 @@ useEffect(() => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Issue Status Distribution</h2>
+        <div className="bg-base-100 p-6 rounded-2xl shadow border border-base-300">
+          <h2 className="text-xl font-bold text-base-content mb-4">Issue Status Distribution</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

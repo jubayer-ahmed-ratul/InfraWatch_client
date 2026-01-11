@@ -122,7 +122,7 @@ const ReportIssuePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+    <div className="min-h-screen bg-base-200 p-4 sm:p-6">
       <div className="max-w-2xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold">
@@ -131,7 +131,7 @@ const ReportIssuePage = () => {
               Issue
             </span>
           </h1>
-          <p className="text-gray-600 mt-1">Help us improve your community</p>
+          <p className="text-base-content/70 mt-1">Help us improve your community</p>
         </div>
 
         {freeLimitReached && (

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
+import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 import {
   Menu,
   X,
@@ -71,7 +72,7 @@ export default function DashboardLayout({ onLogout }) {
   const menuItems = menuByRole[currentUser?.role || "user"];
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-base-200">
       {isMobile && isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30"
@@ -85,7 +86,7 @@ export default function DashboardLayout({ onLogout }) {
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
           ${isMobile ? "fixed z-40" : "relative"}
           ${isSidebarCollapsed && !isMobile ? "w-20" : "w-64"}
-          h-screen bg-white shadow-lg p-4 flex flex-col
+          h-screen bg-base-100 shadow-lg p-4 flex flex-col
           transition-all duration-300
         `}
       >
@@ -106,7 +107,7 @@ export default function DashboardLayout({ onLogout }) {
           {!isSidebarCollapsed && (
             <>
               <h3 className="font-semibold mt-2">{currentUser?.displayName}</h3>
-              <p className="text-xs text-gray-500">{currentUser?.role}</p>
+              <p className="text-xs text-base-content/60">{currentUser?.role}</p>
             </>
           )}
         </div>
@@ -114,7 +115,7 @@ export default function DashboardLayout({ onLogout }) {
         {/* Back Home */}
         <NavLink
           to="/"
-          className={`flex items-center gap-2 px-3 py-2 mb-3 rounded-lg bg-gray-100 hover:bg-green-100
+          className={`flex items-center gap-2 px-3 py-2 mb-3 rounded-lg bg-base-200 hover:bg-green-100
             ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
           `}
         >
@@ -141,16 +142,21 @@ export default function DashboardLayout({ onLogout }) {
           ))}
         </nav>
 
-        {/* Logout */}
-        <button
-          onClick={handleLogout}
-          className={`mt-auto flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg
-            ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
-          `}
-        >
-          <LogOut className="w-5 h-5" />
-          {!isSidebarCollapsed && <span>Logout</span>}
-        </button>
+        {/* Theme Toggle & Logout */}
+        <div className="mt-auto space-y-2">
+          <div className={`flex ${isSidebarCollapsed && !isMobile ? "justify-center" : "justify-start"}`}>
+            <ThemeToggle />
+          </div>
+          <button
+            onClick={handleLogout}
+            className={`w-full flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg
+              ${isSidebarCollapsed && !isMobile ? "justify-center" : ""}
+            `}
+          >
+            <LogOut className="w-5 h-5" />
+            {!isSidebarCollapsed && <span>Logout</span>}
+          </button>
+        </div>
       </aside>
 
       {/* Content */}
@@ -159,7 +165,7 @@ export default function DashboardLayout({ onLogout }) {
           onClick={() =>
             isMobile ? setIsSidebarOpen(!isSidebarOpen) : setIsSidebarCollapsed(!isSidebarCollapsed)
           }
-          className="mb-4 p-2 rounded-lg hover:bg-gray-100"
+          className="mb-4 p-2 rounded-lg hover:bg-base-200"
         >
           {isMobile ? <Menu /> : isSidebarCollapsed ? <ChevronRight /> : <ChevronLeft />}
         </button>

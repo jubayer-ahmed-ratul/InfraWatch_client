@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loader from "../../Home/Components/Loader/Loader";
+import PublicPageWrapper from "../../../components/PublicPageWrapper/PublicPageWrapper";
 
 export default function AllIssuesPage({ currentUser }) {
   const navigate = useNavigate();
@@ -144,14 +145,15 @@ export default function AllIssuesPage({ currentUser }) {
   // UI
   // =========================
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
+    <PublicPageWrapper>
+      <section className="py-16 bg-base-200 min-h-screen">
       <div className="max-w-7xl mx-auto px-4">
         {/* HEADER */}
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
             All <span className="text-green-600">Issues</span>
           </h2>
-          <p className="text-gray-600">
+          <p className="text-base-content/70">
             Explore reported issues and support public priorities
           </p>
         </div>
@@ -182,7 +184,7 @@ export default function AllIssuesPage({ currentUser }) {
               setCategoryFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 rounded border"
+            className="px-4 py-2 rounded border bg-base-100"
           >
             <option value="">All Categories</option>
             <option value="Road">Road</option>
@@ -198,7 +200,7 @@ export default function AllIssuesPage({ currentUser }) {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 rounded border"
+            className="px-4 py-2 rounded border bg-base-100"
           >
             <option value="">All Status</option>
             <option value="Pending">Pending</option>
@@ -213,7 +215,7 @@ export default function AllIssuesPage({ currentUser }) {
               setPriorityFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-2 rounded border"
+            className="px-4 py-2 rounded border bg-base-100"
           >
             <option value="">All Priority</option>
             <option value="High">High</option>
@@ -235,7 +237,7 @@ export default function AllIssuesPage({ currentUser }) {
             return (
               <div
                 key={issue._id}
-                className={`bg-white rounded-lg shadow p-4 relative ${
+                className={`bg-base-100 rounded-lg shadow p-4 relative ${
                   issue.boosted ? "ring-2 ring-yellow-400" : ""
                 }`}
               >
@@ -254,10 +256,10 @@ export default function AllIssuesPage({ currentUser }) {
                 <h3 className="font-semibold text-lg mb-1">
                   {issue.title}
                 </h3>
-                <p className="text-sm text-gray-500 mb-2">
+                <p className="text-sm text-base-content/60 mb-2">
                   {issue.description}
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-base-content/50">
                   Location: {issue.location}
                 </p>
 
@@ -293,7 +295,7 @@ export default function AllIssuesPage({ currentUser }) {
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+            className="px-4 py-2 bg-base-200 rounded disabled:opacity-50"
           >
             Previous
           </button>
@@ -307,12 +309,13 @@ export default function AllIssuesPage({ currentUser }) {
               setPage((p) => Math.min(p + 1, totalPages))
             }
             disabled={page === totalPages}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+            className="px-4 py-2 bg-base-200 rounded disabled:opacity-50"
           >
             Next
           </button>
         </div>
       </div>
     </section>
+    </PublicPageWrapper>
   );
 }

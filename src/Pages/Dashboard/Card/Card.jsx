@@ -1,18 +1,26 @@
 // Card.js
 import React from 'react';
 
-export const Card = ({ title, value }) => {
+export const Card = ({ title, value, icon, color, trend }) => {
   return (
-    <div style={{
-      padding: '20px',
-      borderRadius: '8px',
-      backgroundColor: '#f7f7f7',
-      boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-      minWidth: '150px',
-      textAlign: 'center'
-    }}>
-      <h3>{title}</h3>
-      <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{value}</p>
+    <div className="bg-base-100 border border-base-300 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between mb-4">
+        <div className={`p-3 rounded-lg bg-gradient-to-r ${color || 'from-blue-500 to-cyan-500'}`}>
+          <div className="text-white">
+            {icon}
+          </div>
+        </div>
+        {trend && (
+          <span className="text-sm font-medium text-green-600">
+            {trend}
+          </span>
+        )}
+      </div>
+      
+      <div>
+        <h3 className="text-sm font-medium text-base-content/70 mb-1">{title}</h3>
+        <p className="text-2xl font-bold text-base-content">{value}</p>
+      </div>
     </div>
   );
 };

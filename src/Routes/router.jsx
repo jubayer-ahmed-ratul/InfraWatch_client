@@ -42,11 +42,9 @@ export const router = createBrowserRouter([
       { path: "allissues", element: <AllIssuesPage /> },
       {
         path: "issues/:issueId",
-        element: (
-          <PrivateRoute>
+        element: 
             <IssueDetailsPage />
-          </PrivateRoute>
-        ),
+          
       },
       { path: "payment-success", element: <PaymentSuccess /> },
       { path: "boost-success", element: <BoostSuccess /> },

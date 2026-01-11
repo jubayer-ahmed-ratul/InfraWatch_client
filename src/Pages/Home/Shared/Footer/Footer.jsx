@@ -38,11 +38,11 @@ const Footer = () => {
                 Dashboard
               </a>
             </li>
-            <li>
+            {/* <li>
               <a href="/contact" className="hover:text-green-600 transition">
                 Contact
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -55,7 +55,7 @@ const Footer = () => {
             </a>
           </p>
           <p className="text-base-content/70 mt-2">Phone: +880 1234 567890</p>
-          <div className="flex space-x-4 mt-4">
+          {/* <div className="flex space-x-4 mt-4">
             <a
               href="#"
               className="text-base-content/60 hover:text-green-600 transition"
@@ -74,7 +74,7 @@ const Footer = () => {
             >
               LinkedIn
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="border-t border-base-300 mt-6 pt-4 text-center text-base-content/60 text-sm">

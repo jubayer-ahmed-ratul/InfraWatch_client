@@ -1,36 +1,45 @@
 import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom"; 
-import Swal from "sweetalert2";
 import { AuthContext } from "../../../../context/AuthContext/AuthContext";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import useToast from "../../../../hooks/useToast";
 
 const Login = () => {
   const { signInUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation(); 
   const from = location.state?.from?.pathname || "/";
+  const { showToast } = useToast();
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
   const handleLogin = async (data) => {
     try {
       await signInUser(data.email, data.password);
-
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        text: `Welcome back, ${data.email}!`,
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
+      showToast.loginSuccess(data.email.split('@')[0]);
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: error.message,
-      });
+      showToast.error(`Login failed: ${error.message}`);
+    }
+  };
+
+  // Demo login functions
+  const handleDemoLogin = (email, password) => {
+    setValue("email", email);
+    setValue("password", password);
+  };
+
+  const handleAutoLogin = async (email, password) => {
+    setValue("email", email);
+    setValue("password", password);
+    
+    // Auto login after setting values
+    try {
+      await signInUser(email, password);
+      const role = email.includes('admin') ? 'Admin' : email.includes('staff') ? 'Staff' : 'Citizen';
+      showToast.success(`🚀 Demo login successful! Welcome ${role}!`);
+    } catch (error) {
+      showToast.error(`Demo login failed: ${error.message}`);
     }
   };
 
@@ -92,6 +101,67 @@ const Login = () => {
             Login
           </button>
         </form>
+
+        {/* Demo Login Buttons */}
+        <div className="mt-6 p-4 bg-base-200 rounded-xl">
+          <h3 className="text-sm font-semibold text-base-content mb-3 text-center">🚀 Demo Login Credentials</h3>
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("admin@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-sm rounded-lg transition border border-purple-300"
+              >
+                Fill Admin
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAutoLogin("admin@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition"
+              >
+                👑 Login as Admin
+              </button>
+            </div>
+            
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("hamimstaff@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm rounded-lg transition border border-blue-300"
+              >
+                Fill Staff
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAutoLogin("hamimstaff@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg transition"
+              >
+                👷 Login as Staff
+              </button>
+            </div>
+            
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("usert@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-green-100 hover:bg-green-200 text-green-700 text-sm rounded-lg transition border border-green-300"
+              >
+                Fill Citizen
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAutoLogin("usert@gmail.com", "12345678")}
+                className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm rounded-lg transition"
+              >
+                👤 Login as Citizen
+              </button>
+            </div>
+          </div>
+          <div className="mt-3 text-xs text-base-content/60 space-y-1">
+            <p className="text-center">• <strong>Fill</strong> buttons: Auto-fill credentials only</p>
+            <p className="text-center">• <strong>Login as</strong> buttons: Auto-fill + Login instantly</p>
+          </div>
+        </div>
 
         <div className="flex items-center my-6">
           <div className="flex-1 h-px bg-base-300"></div>

@@ -18,6 +18,7 @@ const Login = () => {
     try {
       await signInUser(data.email, data.password);
       showToast.loginSuccess(data.email.split('@')[0]);
+      // Note: Redirect will be handled by useEffect when user role is loaded
     } catch (error) {
       showToast.error(`Login failed: ${error.message}`);
     }
@@ -38,6 +39,7 @@ const Login = () => {
       await signInUser(email, password);
       const role = email.includes('admin') ? 'Admin' : email.includes('staff') ? 'Staff' : 'Citizen';
       showToast.success(`🚀 Demo login successful! Welcome ${role}!`);
+      // Note: Redirect will be handled by useEffect when user role is loaded
     } catch (error) {
       showToast.error(`Demo login failed: ${error.message}`);
     }
@@ -45,7 +47,8 @@ const Login = () => {
 
   // Redirect based on role
   useEffect(() => {
-    if (user) {
+    if (user && user.role) {
+      console.log('User logged in with role:', user.role); // Debug log
       if (user.role === "staff") {
         navigate("/dashboard/staff", { replace: true });
       } else if (user.role === "admin") {
@@ -104,7 +107,7 @@ const Login = () => {
 
         {/* Demo Login Buttons */}
         <div className="mt-6 p-4 bg-base-200 rounded-xl">
-          <h3 className="text-sm font-semibold text-base-content mb-3 text-center">🚀 Demo Login Credentials</h3>
+          <h3 className="text-sm font-semibold text-base-content mb-3 text-center"> Demo Login Credentials</h3>
           <div className="space-y-2">
             <div className="flex gap-2">
               <button
@@ -119,7 +122,7 @@ const Login = () => {
                 onClick={() => handleAutoLogin("admin@gmail.com", "12345678")}
                 className="flex-1 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm rounded-lg transition"
               >
-                👑 Login as Admin
+                 Login as Admin
               </button>
             </div>
             
@@ -136,7 +139,7 @@ const Login = () => {
                 onClick={() => handleAutoLogin("hamimstaff@gmail.com", "12345678")}
                 className="flex-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg transition"
               >
-                👷 Login as Staff
+                 Login as Staff
               </button>
             </div>
             
@@ -153,7 +156,7 @@ const Login = () => {
                 onClick={() => handleAutoLogin("usert@gmail.com", "12345678")}
                 className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm rounded-lg transition"
               >
-                👤 Login as Citizen
+                 Login as Citizen
               </button>
             </div>
           </div>

@@ -19,8 +19,11 @@ const Navbar = () => {
   const navItems = (
     <>
       <li><a href="/" className="text-lg font-medium px-4 hover:text-green-600 transition">Home</a></li>
+      <li><a href="/about" className="text-lg font-medium px-4 hover:text-green-600 transition">About</a></li>
+      <li><a href="/services" className="text-lg font-medium px-4 hover:text-green-600 transition">Services</a></li>
       <li><a href="/allissues" className="text-lg font-medium px-4 hover:text-green-600 transition">All Issues</a></li>
-      <li><a href="/dashboard" className="text-lg font-medium px-4 hover:text-green-600 transition">Dashboard</a></li>
+      <li><a href="/contact" className="text-lg font-medium px-4 hover:text-green-600 transition">Contact</a></li>
+      {user && <li><a href="/dashboard" className="text-lg font-medium px-4 hover:text-green-600 transition">Dashboard</a></li>}
     </>
   );
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 const Footer = () => {
   return (
     <footer className="bg-base-100 shadow-inner mt-10 border-t border-base-300">
@@ -29,7 +27,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="/all-issues" className="hover:text-green-600 transition">
+              <a href="/allissues" className="hover:text-green-600 transition">
                 All Issues
               </a>
             </li>

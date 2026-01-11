@@ -1,10 +1,12 @@
-// router.jsx
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Pages/Layout/RootLayout";
 import AuthLayout from "../Pages/Layout/AuthLayout";
 import DashboardLayout from "../Pages/Layout/DashboardLayout";
 
 import HomePage from "../Pages/Home/Home/HomePage";
+import About from "../Pages/About/About";
+import Services from "../Pages/Services/Services";
+import Contact from "../Pages/Contact/Contact";
 import Login from "../Pages/Home/Private/Login/Login";
 import Register from "../Pages/Home/Private/Register/Register";
 import AllIssuesPage from "../Pages/Issues/AllIssuesPage/AllIssuesPage";
@@ -25,12 +27,12 @@ import AdminPayments from "../Pages/Dashboard/Admin/AdminPayments/AdminPayments"
 import AdminIssuesPage from "../Pages/Dashboard/Admin/AllIssuesPage/AdminIssuesPage";
 import AdminRoute from "./AdminRoute";
 
-
 import StaffOverview from "../Pages/Dashboard/staff/StaffOverview/StaffOverview";
 import StaffAssignedIssues from "../Pages/Dashboard/staff/StaffAssignedIssues/StaffAssignedIssues";
 import StaffProfile from "../Pages/Dashboard/staff/StaffProfile/StaffProfile";
 import StaffRoute from "./StaffRoute";
-import NotFound from "../Pages/NotFound/NotFound"; 
+import NotFound from "../Pages/NotFound/NotFound";
+import DashboardRedirect from "../components/DashboardRedirect/DashboardRedirect"; 
 
 // router.jsx
 export const router = createBrowserRouter([
@@ -39,19 +41,20 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: "about", element: <About /> },
+      { path: "services", element: <Services /> },
+      { path: "contact", element: <Contact /> },
       { path: "allissues", element: <AllIssuesPage /> },
       {
         path: "issues/:issueId",
-        element: 
-            <IssueDetailsPage />
-          
+        element: <IssueDetailsPage />
       },
       { path: "payment-success", element: <PaymentSuccess /> },
       { path: "boost-success", element: <BoostSuccess /> },
       {
-    path: "*",
-    element: <NotFound />,
-  },
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
   {
@@ -70,7 +73,8 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { index: true, element: <OverviewPage /> },
+      { index: true, element: <DashboardRedirect /> },
+      { path: "overview", element: <OverviewPage /> },
       { path: "my-issues", element: <MyIssuesPage /> },
       { path: "report-issue", element: <ReportIssuePage /> },
       { path: "profile", element: <ProfilePage /> },
